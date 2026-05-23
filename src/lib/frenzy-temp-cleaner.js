@@ -1,0 +1,45 @@
+const fs = require('fs')
+const path = require('path')
+const { logger } = require('./frenzy-logger')
+
+const CLEAN_INTERVAL = 30 * 60 * 1000
+const TEMP_DIRS = ['temp', 'tmp']
+
+let cleanerTimer = null
+
+function startTempCleaner() {
+    if (cleanerTimer) return
+
+    cleanerTimer = setInterval(() => {
+        let totalCleaned = 0
+        for (const inr of TEMP_DIRS) {
+            const inrPath = path.join(process.cwd(), inr)
+            if (!fs.existsSync(inrPath)) continue
+
+            try {
+                const files = fs.readdirSync(inrPath)
+                for (const file of files) {
+                    try {
+                        fs.unlinkSync(path.join(inrPath, file))
+                        totalCleaned++
+                    } catch {}
+                }
+            } catch {}
+        }
+        if (totalCleaned > 0) {
+            logger.system('temp', `cleaned ${totalCleaned} file(s)`)
+        }
+    }, CLEAN_INTERVAL)
+
+    if (cleanerTimer.unref) cleanerTimer.unref()
+    logger.success('temp', `auto-clean every ${CLEAN_INTERVAL / 60000}m`)
+}
+
+function stopTempCleaner() {
+    if (cleanerTimer) {
+        clearInterval(cleanerTimer)
+        cleanerTimer = null
+    }
+}
+
+module.exports = { startTempCleaner, stopTempCleaner }

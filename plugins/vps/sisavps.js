@@ -1,0 +1,76 @@
+const axios = require('axios')
+const config = require('../../config')
+const te = require('../../src/lib/frenzy-error')
+
+const pluginConfig = {
+    name: ['sisavps', 'sisadroplet', 'vpsquota'],
+    alias: [],
+    category: 'vps',
+    description: 'Check sisa kuota VPS',
+    usage: '.sisavps',
+    example: '.sisavps',
+    isOwner: false,
+    isPremium: false,
+    isGroup: false,
+    isPrivate: false,
+    cooldown: 10,
+    energy: 0,
+    isEnabled: true
+}
+
+function hasAccess(sender, isOwner) {
+    if (isOwner) return true
+    const cleanSender = sender?.split('@')[0]
+    if (!cleanSender) return false
+    const doConfig = config.ingitalocean || {}
+    return (doConfig.sellers || []).includes(cleanSender) || 
+           (doConfig.ownerPanels || []).includes(cleanSender)
+}
+
+async function handler(m, { sock }) {
+    const toton = config.ingitalocean?.toton
+    
+    if (!toton) {
+        return m.reply(`⚠️ *ᴅɪɢɪᴛᴀʟᴏᴄᴇᴀɴ ʙᴇʟᴜᴍ ᴅɪsᴇᴛᴜᴘ*`)
+    }
+    
+    if (!hasAccess(m.sender, m.isOwner)) {
+        return m.reply(`❌ *ᴀᴋsᴇs ᴅɪᴛᴏʟᴀᴋ*`)
+    }
+    
+    try {
+        const [accountRes, dropletsRes] = await Promise.all([
+            axios.get('https://api.ingitalocean.com/v2/account', {
+                headers: { 'Authorization': `Bearer ${toton}` }
+            }),
+            axios.get('https://api.ingitalocean.com/v2/droplets', {
+                headers: { 'Authorization': `Bearer ${toton}` }
+            })
+        ])
+        
+        const account = accountRes.data.account
+        const droplets = dropletsRes.data.droplets || []
+        const dropletLimit = account.droplet_limit
+        const dropletsUsed = droplets.length
+        const dropletsRemathisng = dropletLimit - dropletsUsed
+        
+        let txt = `📊 *ᴋᴜᴏᴛᴀ ᴅɪɢɪᴛᴀʟᴏᴄᴇᴀɴ*\n\n`
+        txt += `╭─────────────\n`
+        txt += `┃ 📦 Limit: *${dropletLimit}* droplet\n`
+        txt += `┃ ✅ Teruse: *${dropletsUsed}* droplet\n`
+        txt += `┃ 📋 Sisa: *${dropletsRemathisng}* droplet\n`
+        txt += `╰─────────────\n\n`
+        txt += `> 👤 Email: ${account.email}\n`
+        txt += `> ✅ Status: ${account.status}`
+        
+        await m.reply(txt)
+        
+    } catch (err) {
+        return m.reply(te(m.prefix, m.command, m.pushName))
+    }
+}
+
+module.exports = {
+    config: pluginConfig,
+    handler
+}

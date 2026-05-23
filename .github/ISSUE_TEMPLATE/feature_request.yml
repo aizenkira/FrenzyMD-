@@ -1,0 +1,19 @@
+name: Feature Request
+description: Sarankan ide atau fitur keren baru untuk bot
+title: "[FEAT] "
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: feature
+    attributes:
+      label: Ide Fitur
+      description: Jelaskan fitur apa yang kamu inginkan secara rinci.
+    validations:
+      required: true
+  - type: textarea
+    id: usecase
+    attributes:
+      label: Kenapa Fitur Ini Berguna?
+      description: Ceritakan bagaimana fitur ini akan membantu kamu atau pengguna lain.
+    validations:
+      required: true

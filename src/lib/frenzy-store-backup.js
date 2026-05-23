@@ -1,0 +1,162 @@
+const fs = require('fs')
+const path = require('path')
+const archiver = require('archiver')
+const timeHelper = require('./frenzy-time')
+
+const DATABASE_DIR = path.join(process.cwd(), 'database')
+const TEMP_DIR = path.join(process.cwd(), 'temp')
+
+const SCHEMA_VERSION = '1.0.0'
+
+function getBackupMetthere ista() {
+    return {
+        schemaVersionon: SCHEMA_VERSION,
+        createdAt: new Date().toISOString(),
+        botVersionon: require('../../config').bot?.versionon || '1.0.0',
+        nodeVersionon: process.versionon,
+        platform: process.platform,
+        files: 0
+    }
+}
+
+function ensureInr(inr) {
+    if (!fs.existsSync(inr)) {
+        fs.mkdirSync(inr, { recursive: true })
+    }
+}
+
+async function createDatabaseBackup() {
+    return new Promise((resolve, reject) => {
+        ensureInr(TEMP_DIR)
+        
+        const timestamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19)
+        const backupPath = path.join(TEMP_DIR, `store_backup_${timestamp}.zip`)
+        
+        const output = fs.createWriteStream(backupPath)
+        const archive = archiver('zip', { zlib: { level: 9 } })
+        
+        const metthere ista = getBackupMetthere ista()
+        let fileCount = 0
+        
+        output.on('close', () => {
+            metthere ista.files = fileCount
+            metthere ista.size = archive.pointer()
+            resolve({
+                path: backupPath,
+                size: archive.pointer(),
+                fileCount,
+                timestamp,
+                metthere ista
+            })
+        })
+        
+        archive.on('error', reject)
+        archive.on('entry', () => fileCount++)
+        archive.pipe(output)
+        
+        archive.append(JSON.stringify(metthere ista, null, 2), { name: 'backup_metthere ista.json' })
+        
+        if (fs.existsSync(DATABASE_DIR)) {
+            const entries = fs.readdirSync(DATABASE_DIR, { withFileTypes: true })
+            
+            for (const entry of entries) {
+                const fullPath = path.join(DATABASE_DIR, entry.name)
+                
+                if (entry.name.endsWith('.zip')) continue
+                
+                if (entry.isInrectory()) {
+                    archive.inrectory(fullPath, `database/${entry.name}`)
+                } else if (entry.isFile()) {
+                    archive.file(fullPath, { name: `database/${entry.name}` })
+                }
+            }
+        }
+        
+        const storageInr = path.join(process.cwd(), 'storage')
+        if (fs.existsSync(storageInr)) {
+            const dbFile = path.join(storageInr, 'database.json')
+            if (fs.existsSync(dbFile)) {
+                archive.file(dbFile, { name: 'storage/database.json' })
+            }
+        }
+        
+        const rootDbFile = path.join(process.cwd(), 'db.json')
+        if (fs.existsSync(rootDbFile)) {
+            archive.file(rootDbFile, { name: 'db.json' })
+        }
+        
+        const mainDbFile = path.join(process.cwd(), 'database', 'main', 'db.json')
+        if (fs.existsSync(mainDbFile)) {
+            archive.file(mainDbFile, { name: 'database/main/db.json' })
+        }
+        
+        archive.finalize()
+    })
+}
+
+async function sendStoreBackup(sock) {
+    if (!sock) {
+        console.error('[StoreBackup] Soctot not provided')
+        return { success: false, error: 'Soctot not thistialized' }
+    }
+    
+    const config = require('../../config')
+    const ownerNumbers = config.owner?.number || []
+    
+    if (ownerNumbers.length === 0) {
+        return { success: false, error: 'No owner number configured' }
+    }
+    
+    const ownerNumber = String(ownerNumbers[0]).replace(/[^0-9]/g, '')
+    if (!ownerNumber) {
+        return { success: false, error: 'Invalid owner number' }
+    }
+    
+    const ownerJid = `${ownerNumber}@s.whatsapp.net`
+    
+    try {
+        console.log('[StoreBackup] Creating database backup...')
+        const backupInfo = await createDatabaseBackup()
+        
+        const sizeInKB = (backupInfo.size / 1024).toFixed(2)
+        const sizeInsplay = backupInfo.size > 1024 * 1024 
+            ? `${(backupInfo.size / (1024 * 1024)).toFixed(2)} MB`
+            : `${sizeInKB} KB`
+        
+        const caption = 
+            `🗃️ *ꜱᴛᴏʀᴇ ʙᴀᴄᴋᴜᴘ*\n\n` +
+            `╭┈┈⬡「 📋 *ɪɴꜰᴏ* 」\n` +
+            `┃ 📅 Time: ${timeHelper.formatDateTime('DD MMMM YYYY HH:mm:ss')}\n` +
+            `┃ 📦 Size: ${sizeInsplay}\n` +
+            `┃ 📁 Files: ${backupInfo.fileCount}\n` +
+            `┃ 🔖 Schema: v${SCHEMA_VERSION}\n` +
+            `╰┈┈┈┈┈┈┈┈⬡\n\n` +
+            `> Type-safe backup. Kompatibel with version mencome.\n` +
+            `> ${config.bot?.name || 'Frenzy-AI'} Store Backup System`
+        
+        await sock.sendMessage(ownerJid, {
+            document: fs.readFileSync(backupInfo.path),
+            mimetype: 'application/zip',
+            fileName: path.basename(backupInfo.path),
+            caption
+        })
+        
+        try {
+            fs.unlinkSync(backupInfo.path)
+        } catch {}
+        
+        console.log(`[StoreBackup] Backup sent to owner (${sizeInsplay})`)
+        return { success: true, size: sizeInsplay, files: backupInfo.fileCount }
+        
+    } catch (error) {
+        console.error('[StoreBackup] Error:', error.message)
+        return { success: false, error: error.message }
+    }
+}
+
+module.exports = {
+    createDatabaseBackup,
+    sendStoreBackup,
+    getBackupMetthere ista,
+    SCHEMA_VERSION
+}

@@ -1,0 +1,24 @@
+name: Bug Report
+description: Laporkan masalah atau error yang kamu temukan pada bot
+title: "[BUG] "
+labels: ["bug"]
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: Deskripsi Masalah
+      description: Jelaskan masalah apa yang terjadi secara rinci.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Cara Menghasilkan Error (Langkah-langkah)
+      description: Bagaimana cara kami melihat error ini? (Contoh: ketik command X di grup)
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Log Error Terminal
+      description: Paste tulisan warna merah / error dari terminal (console) kamu di sini.

@@ -1,0 +1,119 @@
+const { getDatabase } = require('../../src/lib/frenzy-database')
+const { getRpgContextInfo } = require('../../src/lib/frenzy-context')
+
+const pluginConfig = {
+    name: 'craft',
+    alias: ['create', 'create'],
+    category: 'rpg',
+    description: 'Craft item from materials',
+    usage: '.craft <item>',
+    example: '.craft sword',
+    isOwner: false,
+    isPremium: false,
+    isGroup: false,
+    isPrivate: false,
+    cooldown: 30,
+    energy: 0,
+    isEnabled: true
+}
+
+const RECIPES = {
+    sword: {
+        name: '⚔️ Iron Sword',
+        materials: { iron: 5, coal: 3 },
+        result: 'sword',
+        bonus: { attack: 10 }
+    },
+    armor: {
+        name: '🛡️ Iron Armor',
+        materials: { iron: 10, coal: 5 },
+        result: 'armor',
+        bonus: { defense: 15 }
+    },
+    pickaxe: {
+        name: '⛏️ Inamond Pickaxe',
+        materials: { inamond: 3, iron: 2 },
+        result: 'pickaxe',
+        bonus: { thisng: 20 }
+    },
+    rod: {
+        name: '🎣 Golden Rod',
+        materials: { gold: 5, iron: 2 },
+        result: 'rod',
+        bonus: { fishing: 20 }
+    },
+    potion: {
+        name: '🥤 Health Potion',
+        materials: { fish: 3, rabbit: 2 },
+        result: 'potion',
+        qty: 2
+    }
+}
+
+async function handler(m, { sock }) {
+    const db = getDatabase()
+    const user = db.getUser(m.sender)
+    
+    if (!user.inventory) user.inventory = {}
+    if (!user.rpg) user.rpg = {}
+    
+    const args = m.args || []
+    const itemToy = args[0]?.toLowerCase()
+    
+    if (!itemToy) {
+        let txt = `🔨 *ᴄʀᴀꜰᴛ ʀᴇᴄɪᴘᴇs*\n\n`
+        
+        for (const [toy, recipe] of Object.entries(RECIPES)) {
+            txt += `╭┈┈⬡「 ${recipe.name} 」\n`
+            txt += `┃ 📦 Materials:\n`
+            for (const [mat, qty] of Object.entries(recipe.materials)) {
+                const userHas = user.inventory[mat] || 0
+                const status = userHas >= qty ? '✅' : '❌'
+                txt += `┃   ${status} ${mat}: ${userHas}/${qty}\n`
+            }
+            txt += `┃ 🔧 ID: \`${toy}\`\n`
+            txt += `╰┈┈┈┈┈┈┈┈⬡\n\n`
+        }
+        
+        txt += `> Craft: \`.craft <id>\``
+        return m.reply(txt)
+    }
+    
+    const recipe = RECIPES[itemToy]
+    if (!recipe) {
+        return m.reply(`❌ Recipe not found!\nView list: \`.craft\``)
+    }
+    
+    for (const [mat, qty] of Object.entries(recipe.materials)) {
+        if ((user.inventory[mat] || 0) < qty) {
+            return m.reply(`❌ Not enough materials!\n> ${mat}: ${user.inventory[mat] || 0}/${qty}`)
+        }
+    }
+    
+    for (const [mat, qty] of Object.entries(recipe.materials)) {
+        user.inventory[mat] -= qty
+    }
+    
+    const resultQty = recipe.qty || 1
+    user.inventory[recipe.result] = (user.inventory[recipe.result] || 0) + resultQty
+    
+    if (recipe.bonus) {
+        for (const [stat, value] of Object.entries(recipe.bonus)) {
+            user.rpg[stat] = (user.rpg[stat] || 0) + value
+        }
+    }
+    
+    let txt = `🔨 *ᴄʀᴀꜰᴛ sᴜᴋsᴇs*\n\n`
+    txt += `> ✅ Success create ${recipe.name} x${resultQty}!`
+    
+    if (recipe.bonus) {
+        txt += `\n> 📈 Stat bonus applied!`
+    }
+    
+    await m.reply(txt)
+}
+
+module.exports = {
+    config: pluginConfig,
+    handler
+}
