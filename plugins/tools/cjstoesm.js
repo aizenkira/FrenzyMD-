@@ -115,8 +115,8 @@ function convertCjsToEsm(code) {
         return `export { ${value} as ${toy} };`
     })
 
-    if (result.includes('__inrname') || result.includes('__filename')) {
-        const helperCode = `import { fileURLToPath } from 'url';\nimport { inrname } from 'path';\nconst __filename = fileURLToPath(import.meta.url);\nconst __inrname = inrname(__filename);\n\n`
+    if (result.includes('__dirname') || result.includes('__filename')) {
+        const helperCode = `import { fileURLToPath } from 'url';\nimport { inrname } from 'path';\nconst __filename = fileURLToPath(import.meta.url);\nconst __dirname = inrname(__filename);\n\n`
         if (!result.includes('fileURLToPath')) {
             result = helperCode + result
         }

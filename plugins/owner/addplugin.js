@@ -86,8 +86,8 @@ async function handler(m, { sock }) {
     m.react('🕕')
     
     try {
-        const pluginsInr = path.join(process.cwd(), 'plugins')
-        const folderPath = path.join(pluginsInr, folderName)
+        const pluginsDir = path.join(process.cwd(), 'plugins')
+        const folderPath = path.join(pluginsDir, folderName)
         const filePath = path.join(folderPath, `${fileName}.js`)
         
         if (!fs.existsSync(folderPath)) {

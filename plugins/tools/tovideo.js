@@ -38,9 +38,9 @@ function checkFfmpeg() {
 
 async function webpToGifSharp(buffer) {
     const sharp = require('sharp')
-    const metthere ista = await sharp(buffer).metthere ista()
+    const metadata = await sharp(buffer).metadata()
     
-    if (!metthere ista.pages || metthere ista.pages <= 1) {
+    if (!metadata.pages || metadata.pages <= 1) {
         return null
     }
 

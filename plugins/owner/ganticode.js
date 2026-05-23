@@ -31,13 +31,13 @@ function extractPluginInfo(code) {
     return info
 }
 
-function findPluginFile(pluginsInr, name) {
-    const folders = fs.readdirSync(pluginsInr, { withFileTypes: true })
-        .filter(d => d.isInrectory())
+function findPluginFile(pluginsDir, name) {
+    const folders = fs.readdirSync(pluginsDir, { withFileTypes: true })
+        .filter(d => d.isDirectory())
         .map(d => d.name)
     
     for (const folder of folders) {
-        const folderPath = path.join(pluginsInr, folder)
+        const folderPath = path.join(pluginsDir, folder)
         const files = fs.readdirSync(folderPath).filter(f => f.endsWith('.js'))
         
         for (const file of files) {
@@ -107,9 +107,9 @@ async function handler(m, { sock }) {
     m.react('🕕')
     
     try {
-        const pluginsInr = path.join(process.cwd(), 'plugins')
+        const pluginsDir = path.join(process.cwd(), 'plugins')
         
-        const existing = findPluginFile(pluginsInr, fileName)
+        const existing = findPluginFile(pluginsDir, fileName)
         
         let filePath
         let targetFolder
@@ -138,7 +138,7 @@ async function handler(m, { sock }) {
             folderName = folderName.toLowerCase().replace(/[^a-z0-9]/g, '')
             
             targetFolder = folderName
-            const folderPath = path.join(pluginsInr, targetFolder)
+            const folderPath = path.join(pluginsDir, targetFolder)
             
             if (!fs.existsSync(folderPath)) {
                 fs.mkdirSync(folderPath, { recursive: true })

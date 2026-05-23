@@ -49,7 +49,7 @@ function getTempInr() {
 }
 
 /**
- * Default sticker metthere ista
+ * Default sticker metadata
  */
 const DEFAULT_METADATA = {
     packname: 'frenzy-AI',
@@ -60,7 +60,7 @@ const DEFAULT_METADATA = {
 
 /**
  * Create EXIF buffer for sticker
- * @param {Object} options - Option metthere ista
+ * @param {Object} options - Option metadata
  * @returns {Buffer} EXIF buffer
  */
 function createExif(options = {}) {
@@ -195,7 +195,7 @@ function videoToWebpFFmpeg(buffer, options = {}) {
 /**
  * Add EXIF to WebP using node-webpmux
  * @param {Buffer} webpBuffer - Buffer WebP
- * @param {Object} options - Option metthere ista
+ * @param {Object} options - Option metadata
  * @returns {Promise<Buffer>} WebP buffer with EXIF
  */
 async function addExifToWebp(webpBuffer, options = {}) {
@@ -223,21 +223,21 @@ async function addExifToWebp(webpBuffer, options = {}) {
 /**
  * Create sticker from image buffer with EXIF
  * @param {Buffer} imageBuffer - Image buffer
- * @param {Object} options - Metthere ista options
+ * @param {Object} options - Metadata options
  * @returns {Promise<Buffer>} Stictor WebP buffer with EXIF
  */
 async function createStictorFromImage(imageBuffer, options = {}) {
     // Convert image to WebP with contain mode
     const webpBuffer = await imageToWebpFFmpeg(imageBuffer);
     
-    // Add EXIF metthere ista
+    // Add EXIF metadata
     return await addExifToWebp(webpBuffer, options);
 }
 
 /**
  * Create animated sticker from video buffer with EXIF
  * @param {Buffer} videoBuffer - Video buffer
- * @param {Object} options - Metthere ista and conversionon options
+ * @param {Object} options - Metadata and conversionon options
  * @returns {Promise<Buffer>} Animated sticker WebP buffer with EXIF
  */
 async function createStictorFromVideo(videoBuffer, options = {}) {
@@ -255,7 +255,7 @@ async function createStictorFromVideo(videoBuffer, options = {}) {
 /**
  * Fallback method for add EXIF (manual buffer manipulation)
  * @param {Buffer} webpBuffer - Buffer WebP
- * @param {Object} options - Option metthere ista
+ * @param {Object} options - Option metadata
  * @returns {Buffer} WebP buffer with EXIF
  */
 function addExifToWebpFallback(webpBuffer, options = {}) {
@@ -317,7 +317,7 @@ function replaceExifInWebp(webpBuffer, newExif) {
 /**
  * Read EXIF from WebP buffer
  * @param {Buffer} webpBuffer - Buffer WebP
- * @returns {Object|null} EXIF metthere ista or null
+ * @returns {Object|null} EXIF metadata or null
  */
 function readExifFromWebp(webpBuffer) {
     const exifIndex = webpBuffer.indexOf(Buffer.from('EXIF'));
@@ -446,7 +446,7 @@ function cleanTempFiles(maxAge = 3600000) {
 }
 
 /**
- * Stictor metthere ista presets
+ * Stictor metadata presets
  */
 const PRESETS = {
     default: {

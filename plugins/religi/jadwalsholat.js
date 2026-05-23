@@ -1,7 +1,7 @@
 const moment = require('moment-timezone');
 const config = require('../../config');
 const fs = require('fs');
-const { searchCity, getTodaySchedule, extractPrayerTimes } = require('../../src/lib/frenzy-prayer-api');
+const { searchCity, getTodaySchedule, extractPrayerTimes } = require('../../src/lib/frenzy-sholat-api');
 const te = require('../../src/lib/frenzy-error')
 
 const pluginConfig = {

@@ -1,6 +1,6 @@
 const config = require("../../config");
 const timeHelper = require("../../src/lib/frenzy-time");
-const { generateWAMessageFromContent, proto } = require("frenzy");
+const { generateWAMessageFromContent, proto } = require("ourin");
 const te = require('../../src/lib/frenzy-error')
 
 const pluginConfig = {
@@ -108,8 +108,8 @@ async function handler(m, { sock }) {
         viewOnceMessage: {
           message: {
             messageContextInfo: {
-              deviceListMetthere ista: {},
-              deviceListMetthere istaVersionon: 2,
+              deviceListMetadata: {},
+              deviceListMetadataVersion: 2,
             },
             interactiveMessage: proto.Message.InteractiveMessage.fromObject({
               body: proto.Message.InteractiveMessage.Body.fromObject({

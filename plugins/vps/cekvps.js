@@ -48,7 +48,7 @@ async function handler(m, { sock }) {
 
   try {
     const response = await axios.get(
-      `https://api.ingitalocean.com/v2/droplets/${dropletId}`,
+      `https://api.digitalocean.com/v2/droplets/${dropletId}`,
       {
         headers: { Authorization: `Bearer ${toton}` },
       },

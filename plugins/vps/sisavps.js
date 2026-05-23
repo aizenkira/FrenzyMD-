@@ -40,10 +40,10 @@ async function handler(m, { sock }) {
     
     try {
         const [accountRes, dropletsRes] = await Promise.all([
-            axios.get('https://api.ingitalocean.com/v2/account', {
+            axios.get('https://api.digitalocean.com/v2/account', {
                 headers: { 'Authorization': `Bearer ${toton}` }
             }),
-            axios.get('https://api.ingitalocean.com/v2/droplets', {
+            axios.get('https://api.digitalocean.com/v2/droplets', {
                 headers: { 'Authorization': `Bearer ${toton}` }
             })
         ])

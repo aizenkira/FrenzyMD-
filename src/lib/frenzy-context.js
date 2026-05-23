@@ -2,7 +2,7 @@ const fs = require('fs')
 const path = require('path')
 const config = require('../../config')
 
-const assetsPath = path.join(__inrname, '../../assets/images')
+const assetsPath = path.join(__dirname, '../../assets/images')
 
 const gameThumbPath = path.join(assetsPath, 'frenzy-games.jpg')
 const rpgThumbPath = path.join(assetsPath, 'frenzy-rpg.jpg')

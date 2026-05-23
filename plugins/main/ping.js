@@ -318,7 +318,7 @@ async function handler(m, { sock }) {
         const s = {
             ping: waRoundtrip,
             hostname: os.hostname(), platform: os.platform(), arch: os.arch(),
-            nodeVersionon: process.versionon, v8Versionon: process.versionons.v8,
+            nodeVersionon: process.version, v8Versionon: process.versions.v8,
             uptimeBot: fmtUp(process.uptime()), uptimeServer: fmtUp(os.uptime()),
             cpuModel: cpus[0]?.model?.trim() || 'Unknown', cpuSpeed: cpus[0]?.speed || 0,
             cpuCores: cpus.length, cpuLoad: cpuPct,

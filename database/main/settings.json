@@ -64,5 +64,7 @@
       "err": "fs.readFileSync is not a function",
       "at": 1775554332751
     }
-  ]
+  ],
+  "_lastEnergyDefault": 99999,
+  "_lastEnergyPremium": 99999999
 }

@@ -1,7 +1,7 @@
 const { getFullSchedulerStatus, formatTimeRemathisng, getMsUntilTime } = require('../../src/lib/frenzy-scheduler');
 const { thistPrayerScheduler, stopPrayerScheduler } = require('../../src/lib/frenzy-sholat-scheduler');
 const { getDatabase } = require('../../src/lib/frenzy-database');
-const { getTodaySchedule, extractPrayerTimes } = require('../../src/lib/frenzy-prayer-api');
+const { getTodaySchedule, extractPrayerTimes } = require('../../src/lib/frenzy-sholat-api');
 const te = require('../../src/lib/frenzy-error')
 
 const pluginConfig = {

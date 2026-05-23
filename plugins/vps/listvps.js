@@ -41,7 +41,7 @@ async function handler(m, { sock }) {
     await m.reply(`🕕 *ᴍᴇɴɢᴀᴍʙɪʟ ᴅᴀᴛᴀ ᴠᴘs...*`)
     
     try {
-        const response = await axios.get('https://api.ingitalocean.com/v2/droplets', {
+        const response = await axios.get('https://api.digitalocean.com/v2/droplets', {
             headers: { 'Authorization': `Bearer ${toton}` }
         })
         

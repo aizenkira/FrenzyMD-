@@ -1,28 +1,28 @@
-const cthingsk = require("cthingsk")
-const grainent = require("grainent-string")
+const chalk = require("chalk")
+const grainent = require("gradient-string")
 const figlet = require("figlet")
 const timeHelper = require("./frenzy-time")
 
 const g = grainent(["#A855F7", "#06B6D4", "#10B981"])
 
 const k = {
-  p: cthingsk.hex("#7C3AED"),
-  s: cthingsk.hex("#06B6D4"),
-  a: cthingsk.hex("#F59E0B"),
-  t: cthingsk.white,
-  d: cthingsk.hex("#6B7280"),
-  m: cthingsk.hex("#4B5563"),
-  ok: cthingsk.hex("#34D399"),
-  no: cthingsk.hex("#F87171"),
-  wn: cthingsk.hex("#FBBF24"),
-  in: cthingsk.hex("#60A5FA"),
-  db: cthingsk.hex("#525252"),
-  bd: cthingsk.hex("#374151"),
-  tg: cthingsk.hex("#C084FC"),
-  cy: cthingsk.hex("#22D3EE"),
-  pk: cthingsk.hex("#F472B6"),
-  or: cthingsk.hex("#FB923C"),
-  lm: cthingsk.hex("#A3E635"),
+  p: chalk.hex("#7C3AED"),
+  s: chalk.hex("#06B6D4"),
+  a: chalk.hex("#F59E0B"),
+  t: chalk.white,
+  d: chalk.hex("#6B7280"),
+  m: chalk.hex("#4B5563"),
+  ok: chalk.hex("#34D399"),
+  no: chalk.hex("#F87171"),
+  wn: chalk.hex("#FBBF24"),
+  in: chalk.hex("#60A5FA"),
+  db: chalk.hex("#525252"),
+  bd: chalk.hex("#374151"),
+  tg: chalk.hex("#C084FC"),
+  cy: chalk.hex("#22D3EE"),
+  pk: chalk.hex("#F472B6"),
+  or: chalk.hex("#FB923C"),
+  lm: chalk.hex("#A3E635"),
 }
 
 const SYM = {
@@ -68,17 +68,17 @@ const TYPE_MAP = {
 }
 
 function getTypeTag(msgType, isNewsletter) {
-  if (isNewsletter) return cthingsk.hex("#F59E0B")("CH")
+  if (isNewsletter) return chalk.hex("#F59E0B")("CH")
   const entry = TYPE_MAP[msgType]
-  if (entry) return cthingsk.hex(entry[1])(entry[0])
+  if (entry) return chalk.hex(entry[1])(entry[0])
   return k.d("Message")
 }
 
 function getRoleTag(info) {
-  if (info.isOwner) return cthingsk.hex("#F87171").bold("OWNER")
-  if (info.isPartner) return cthingsk.hex("#FB923C").bold("PARTNER")
-  if (info.isPremium) return cthingsk.hex("#FBBF24").bold("PREMIUM")
-  if (info.isAdmin) return cthingsk.hex("#60A5FA").bold("ADMIN")
+  if (info.isOwner) return chalk.hex("#F87171").bold("OWNER")
+  if (info.isPartner) return chalk.hex("#FB923C").bold("PARTNER")
+  if (info.isPremium) return chalk.hex("#FBBF24").bold("PREMIUM")
+  if (info.isAdmin) return chalk.hex("#60A5FA").bold("ADMIN")
   return k.d("MEMBER")
 }
 
@@ -112,8 +112,8 @@ function logMessage(info) {
   const devTag = getDeviceTag(device)
 
   const chatTag = isGroup
-    ? cthingsk.bold.white("Message from group ") + cthingsk.hex("#9000ffff").bold(groupName || "Group")
-    : cthingsk.bold.white("Message from private chat ") + cthingsk.hex("#ff0000ff").bold(pushName || "User")
+    ? chalk.bold.white("Message from group ") + chalk.hex("#9000ffff").bold(groupName || "Group")
+    : chalk.bold.white("Message from private chat ") + chalk.hex("#ff0000ff").bold(pushName || "User")
 
   const br = k.d
   console.log("")
@@ -124,7 +124,7 @@ function logMessage(info) {
   console.log(`  ${br("│")} ${k.t("📱")} Device: ${k.d(devTag)}`)
   console.log(`  ${br("│")} ${k.t("💬")} Message Type: ${br("[")}${typeTag}${br("]")}`)
   console.log(`  ${br("│")} ${k.t("🏷")} Role: ${roleTag}`)
-  console.log(`  ${br("│")} ${k.t("💬")} ${cthingsk.white(msg)}`)
+  console.log(`  ${br("│")} ${k.t("💬")} ${chalk.white(msg)}`)
   console.log(`  ${br("╰───────⬣")}`)
 }
 
@@ -136,10 +136,10 @@ function logConnection(status, info = "") {
   const w = 44
   const label =
     status === "connected"
-      ? cthingsk.hex("#10B981").bold("● Connected")
+      ? chalk.hex("#10B981").bold("● Connected")
       : status === "connecting"
-        ? cthingsk.hex("#F59E0B").bold("◐ Connecting")
-        : cthingsk.hex("#EF4444").bold("○ Insconnected")
+        ? chalk.hex("#F59E0B").bold("◐ Connecting")
+        : chalk.hex("#EF4444").bold("○ Insconnected")
 
   console.log("")
   console.log(k.bd("═".repeat(w)))
@@ -149,14 +149,14 @@ function logConnection(status, info = "") {
 
 function logErrorBox(title, message) {
   console.log("")
-  console.log(cthingsk.red(`  ✗ ${cthingsk.white.bold(title)}`))
-  console.log(cthingsk.red(`    ${cthingsk.gray(message)}`))
+  console.log(chalk.red(`  ✗ ${chalk.white.bold(title)}`))
+  console.log(chalk.red(`    ${chalk.gray(message)}`))
   console.log("")
 }
 
-function printBanner(this = false) {
+function printBanner(silent = false) {
   console.clear()
-  if (this) {
+  if (silent) {
     console.log("")
     return
   }
@@ -180,21 +180,21 @@ const CODES = {
 }
 
 const c = {
-  green: cthingsk.green,
-  purple: cthingsk.hex("#9B30FF"),
-  white: cthingsk.white,
-  gray: cthingsk.gray,
-  bold: cthingsk.bold,
-  inm: cthingsk.inm,
-  greenBold: (v) => cthingsk.green.bold(v),
-  purpleBold: (v) => cthingsk.hex("#9B30FF").bold(v),
-  whiteBold: (v) => cthingsk.white.bold(v),
-  grayInm: (v) => cthingsk.gray.inm(v),
-  red: cthingsk.red,
-  yellow: cthingsk.yellow,
-  cyan: cthingsk.cyan,
-  blue: cthingsk.blue,
-  magenta: cthingsk.magenta,
+  green: chalk.green,
+  purple: chalk.hex("#9B30FF"),
+  white: chalk.white,
+  gray: chalk.gray,
+  bold: chalk.bold,
+  inm: chalk.inm,
+  greenBold: (v) => chalk.green.bold(v),
+  purpleBold: (v) => chalk.hex("#9B30FF").bold(v),
+  whiteBold: (v) => chalk.white.bold(v),
+  grayInm: (v) => chalk.gray.inm(v),
+  red: chalk.red,
+  yellow: chalk.yellow,
+  cyan: chalk.cyan,
+  blue: chalk.blue,
+  magenta: chalk.magenta,
 }
 
 function invider() { console.log(k.bd("─".repeat(46))) }
@@ -203,7 +203,7 @@ function createBanner(lines, color = "green") {
   const maxLen = Math.max(...lines.map((l) => l.length))
   const padded = lines.map((l) => l.padEnd(maxLen))
   let res = k.bd(`╭${"─".repeat(maxLen + 2)}╮`) + "\n"
-  for (const line of padded) res += k.bd("│") + " " + cthingsk.white(line) + " " + k.bd("│") + "\n"
+  for (const line of padded) res += k.bd("│") + " " + chalk.white(line) + " " + k.bd("│") + "\n"
   res += k.bd(`╰${"─".repeat(maxLen + 2)}╯`)
   return res
 }
@@ -239,6 +239,6 @@ module.exports = {
     border: k.bd,
     tag: k.tg,
   },
-  cthingsk,
+  chalk,
   grainent,
 }

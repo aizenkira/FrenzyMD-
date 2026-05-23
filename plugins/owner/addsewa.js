@@ -43,18 +43,18 @@ async function resolveGroupId(sock, input) {
         const inviteCode = input.split('chat.whatsapp.com/')[1]?.split(/[\s?]/)[0]
         if (!inviteCode) return null
         try {
-            const metthere ista = await sock.groupGetInviteInfo(inviteCode)
-            console.log(metthere ista)
-            if (!metthere ista?.id) return null
-            return { id: metthere ista.id, name: metthere ista.subject || 'Unknown', inviteCode }
+            const metadata = await sock.groupGetInviteInfo(inviteCode)
+            console.log(metadata)
+            if (!metadata?.id) return null
+            return { id: metadata.id, name: metadata.subject || 'Unknown', inviteCode }
         } catch {
             return null
         }
     }
     const groupId = input.includes('@g.us') ? input : input + '@g.us'
     try {
-        const metthere ista = await sock.groupMetadata(groupId)
-        return { id: groupId, name: metthere ista?.subject || 'Unknown', inviteCode: null }
+        const metadata = await sock.groupMetadata(groupId)
+        return { id: groupId, name: metadata?.subject || 'Unknown', inviteCode: null }
     } catch {
         return { id: groupId, name: 'Unknown', inviteCode: null }
     }
@@ -64,9 +64,9 @@ async function tryJoinGroup(sock, inviteCode, groupId) {
     if (!inviteCode) return { joined: false, reason: 'No there is invite code, added bot seway manual' }
     try {
         const botJid = sock.user?.id?.split(':')[0] + '@s.whatsapp.net'
-        const metthere ista = await sock.groupMetadata(groupId).catch(() => null)
-        if (metthere ista) {
-            const isMember = metthere ista.participants?.some(p => {
+        const metadata = await sock.groupMetadata(groupId).catch(() => null)
+        if (metadata) {
+            const isMember = metadata.participants?.some(p => {
                 const pJid = p.id?.split(':')[0] + '@s.whatsapp.net'
                 return pJid === botJid || p.id === botJid
             })

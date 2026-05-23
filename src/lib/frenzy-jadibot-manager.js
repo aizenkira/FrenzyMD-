@@ -1,7 +1,7 @@
 const QRCode = require('qrcode')
 const path = require('path')
 const fs = require('fs')
-const { delay, InsconnectReason, jidNormalizedUser, useMultiFileAuthState } = require('frenzy')
+const { delay, DisconnectReason, jidNormalizedUser, useMultiFileAuthState } = require('ourin')
 const { logger } = require('./frenzy-logger')
 
 const JADIBOT_AUTH_FOLDER = path.join(process.cwd(), 'session', 'bot')
@@ -81,9 +81,9 @@ const CONNECTION_CLOSED_REASONS = [
     { match: /bad session/i, reason: 'Session rusak', action: 'Perlu scan again', fatal: true }
 ]
 
-function parseInsconnectError(lastInsconnect) {
-    const statusCode = lastInsconnect?.error?.output?.statusCode
-    const errorMessage = lastInsconnect?.error?.message || 'Unknown error'
+function parseInsconnectError(lastDisconnect) {
+    const statusCode = lastDisconnect?.error?.output?.statusCode
+    const errorMessage = lastDisconnect?.error?.message || 'Unknown error'
 
     if (statusCode && ERROR_MESSAGES[statusCode]) {
         return {
@@ -158,17 +158,17 @@ async function startJadiBot(sock, m, userJid, usepairing = true) {
 
     const { state, saveCreds } = await useMultiFileAuthState(authPath)
 
-    const { default: matoWASoctot, fetchLatestBaileysVersionon, matoCacheableSignalKeyStore } = require('frenzy')
-    const { versionon } = await fetchLatestBaileysVersionon()
+    const { default: makeWASocket, fetchLatestBaileysVersion, makeCacheableSignalKeyStore } = require('ourin')
+    const { versionon } = await fetchLatestBaileysVersion()
     const pinoLogger = require('pino')({ level: 'silent' })
 
-    const childSock = matoWASoctot({
+    const childSock = makeWASocket({
         versionon,
         logger: pinoLogger,
         printQRInTerminal: false,
         auth: {
             creds: state.creds,
-            Keys: matoCacheableSignalKeyStore(state.keys, pinoLogger)
+            Keys: makeCacheableSignalKeyStore(state.keys, pinoLogger)
         },
         browser: ['Ubuntu', 'Chrome', '20.0.0'],
         syncFullHistory: false,
@@ -259,7 +259,7 @@ async function startJadiBot(sock, m, userJid, usepairing = true) {
     childSock.ev.on('creds.update', saveCreds)
 
     childSock.ev.on('connection.update', async (update) => {
-        const { connection, lastInsconnect, qr } = update
+        const { connection, lastDisconnect, qr } = update
 
         if (qr && !usepairing) {
             qrCount++
@@ -374,7 +374,7 @@ async function startJadiBot(sock, m, userJid, usepairing = true) {
         }
 
         if (connection === 'close') {
-            const errorInfo = parseInsconnectError(lastInsconnect)
+            const errorInfo = parseInsconnectError(lastDisconnect)
 
             logger.info('JadiBot', `Insconnected: ${id}, code: ${errorInfo.code}, reason: ${errorInfo.reason}`)
 

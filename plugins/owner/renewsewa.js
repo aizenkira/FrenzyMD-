@@ -42,9 +42,9 @@ async function resolveGroupId(sock, input) {
         const inviteCode = input.split('chat.whatsapp.com/')[1]?.split(/[\s?]/)[0]
         if (!inviteCode) return null
         try {
-            const metthere ista = await sock.groupGetInviteInfo(inviteCode)
-            if (!metthere ista?.id) return null
-            return { id: metthere ista.id, name: metthere ista.subject || 'Unknown' }
+            const metadata = await sock.groupGetInviteInfo(inviteCode)
+            if (!metadata?.id) return null
+            return { id: metadata.id, name: metadata.subject || 'Unknown' }
         } catch { return null }
     }
     const groupId = input.includes('@g.us') ? input : input + '@g.us'

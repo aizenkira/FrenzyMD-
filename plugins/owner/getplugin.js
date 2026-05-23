@@ -18,13 +18,13 @@ const pluginConfig = {
     isEnabled: true
 }
 
-function searchPlugin(name, pluginsInr) {
-    const categories = fs.readdirSync(pluginsInr).filter(f => {
-        return fs.statSync(path.join(pluginsInr, f)).isInrectory()
+function searchPlugin(name, pluginsDir) {
+    const categories = fs.readdirSync(pluginsDir).filter(f => {
+        return fs.statSync(path.join(pluginsDir, f)).isDirectory()
     })
     
     for (const category of categories) {
-        const categoryPath = path.join(pluginsInr, category)
+        const categoryPath = path.join(pluginsDir, category)
         const files = fs.readdirSync(categoryPath).filter(f => f.endsWith('.js'))
         
         for (const file of files) {
@@ -40,7 +40,7 @@ function searchPlugin(name, pluginsInr) {
     }
     
     for (const category of categories) {
-        const categoryPath = path.join(pluginsInr, category)
+        const categoryPath = path.join(pluginsDir, category)
         const files = fs.readdirSync(categoryPath).filter(f => f.endsWith('.js'))
         
         for (const file of files) {
@@ -68,14 +68,14 @@ function searchPlugin(name, pluginsInr) {
     return null
 }
 
-function getSimilarPlugins(name, pluginsInr) {
+function getSimilarPlugins(name, pluginsDir) {
     const results = []
-    const categories = fs.readdirSync(pluginsInr).filter(f => {
-        return fs.statSync(path.join(pluginsInr, f)).isInrectory()
+    const categories = fs.readdirSync(pluginsDir).filter(f => {
+        return fs.statSync(path.join(pluginsDir, f)).isDirectory()
     })
     
     for (const category of categories) {
-        const categoryPath = path.join(pluginsInr, category)
+        const categoryPath = path.join(pluginsDir, category)
         const files = fs.readdirSync(categoryPath).filter(f => f.endsWith('.js'))
         
         for (const file of files) {
@@ -110,13 +110,13 @@ async function handler(m, { sock }) {
         )
     }
     
-    const pluginsInr = path.join(process.cwd(), 'plugins')
+    const pluginsDir = path.join(process.cwd(), 'plugins')
     
     let pluginInfo = null
     
     if (pluginName.includes('/')) {
         const [category, file] = pluginName.split('/')
-        const filePath = path.join(pluginsInr, category, file.endsWith('.js') ? file : `${file}.js`)
+        const filePath = path.join(pluginsDir, category, file.endsWith('.js') ? file : `${file}.js`)
         if (fs.existsSync(filePath)) {
             pluginInfo = {
                 path: filePath,
@@ -125,11 +125,11 @@ async function handler(m, { sock }) {
             }
         }
     } else {
-        pluginInfo = searchPlugin(pluginName, pluginsInr)
+        pluginInfo = searchPlugin(pluginName, pluginsDir)
     }
     
     if (!pluginInfo) {
-        const similar = getSimilarPlugins(pluginName, pluginsInr)
+        const similar = getSimilarPlugins(pluginName, pluginsDir)
         let text = `❌ *ᴘʟᴜɢɪɴ ᴛɪᴅᴀᴋ ᴅɪᴛᴇᴍᴜᴋᴀɴ*\n\n`
         text += `> Plugin \`${pluginName}\` not found\n\n`
         

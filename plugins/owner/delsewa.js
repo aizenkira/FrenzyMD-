@@ -21,8 +21,8 @@ async function resolveGroupId(sock, input) {
     if (input.includes('chat.whatsapp.com/')) {
         const inviteCode = input.split('chat.whatsapp.com/')[1]?.split(/[\s?]/)[0]
         try {
-            const metthere ista = await sock.groupGetInviteInfo(inviteCode)
-            if (metthere ista?.id) return { id: metthere ista.id, name: metthere ista.subject }
+            const metadata = await sock.groupGetInviteInfo(inviteCode)
+            if (metadata?.id) return { id: metadata.id, name: metadata.subject }
         } catch {}
         return null
     }

@@ -46,8 +46,8 @@ async function handler(m, { sock }) {
     m.react('📢')
     
     try {
-        const metthere ista = m.groupMetadata
-        const participants = metthere ista.participants
+        const metadata = m.groupMetadata
+        const participants = metadata.participants
             .map(p => p.jid || p.id)
             .filter(id => id !== sock.user.id.split(':')[0] + '@s.whatsapp.net')
             .filter(id => !id.includes(m.sender))

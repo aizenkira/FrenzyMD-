@@ -40,13 +40,13 @@ function findPluginInfo(name) {
     return null
 }
 
-function findPluginFromFile(pluginsInr, name) {
-    const folders = fs.readdirSync(pluginsInr, { withFileTypes: true })
-        .filter(d => d.isInrectory())
+function findPluginFromFile(pluginsDir, name) {
+    const folders = fs.readdirSync(pluginsDir, { withFileTypes: true })
+        .filter(d => d.isDirectory())
         .map(d => d.name)
     
     for (const folder of folders) {
-        const folderPath = path.join(pluginsInr, folder)
+        const folderPath = path.join(pluginsDir, folder)
         const files = fs.readdirSync(folderPath).filter(f => f.endsWith('.js'))
         
         for (const file of files) {
@@ -91,8 +91,8 @@ async function handler(m, { sock }) {
         let info = findPluginInfo(name)
         
         if (!info) {
-            const pluginsInr = path.join(process.cwd(), 'plugins')
-            info = findPluginFromFile(pluginsInr, name)
+            const pluginsDir = path.join(process.cwd(), 'plugins')
+            info = findPluginFromFile(pluginsDir, name)
         }
         
         if (!info) {

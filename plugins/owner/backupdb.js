@@ -18,7 +18,7 @@ async function handler(m, { sock }) {
         '📄 storage/database.json (main database)',
         '📄 db.json (root database)',
         '📄 database/main/*.json (main database)',
-        '📋 backup_metthere ista.json (info schema)'
+        '📋 backup_metadata.json (info schema)'
     ]
     
     await m.reply(

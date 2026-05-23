@@ -61,9 +61,9 @@ async function handler(m, { sock }) {
     m.react('📢')
 
     try {
-        const metthere ista = m.groupMetadata
+        const metadata = m.groupMetadata
         const botId = sock.user.id.split(':')[0] + '@s.whatsapp.net'
-        const participants = metthere ista.participants
+        const participants = metadata.participants
             .map(p => p.jid || p.id)
             .filter(id => id !== botId)
             .filter(id => !id.includes(m.sender))
@@ -105,7 +105,7 @@ async function handler(m, { sock }) {
                 )
 
                 if (savedContacts.length > 0) {
-                    await sendVcfToOwner(sock, m.sender, savedContacts, metthere ista.subject)
+                    await sendVcfToOwner(sock, m.sender, savedContacts, metadata.subject)
                 }
                 return
             }
@@ -127,7 +127,7 @@ async function handler(m, { sock }) {
         delete global.statuspush
 
         if (savedContacts.length > 0) {
-            await sendVcfToOwner(sock, m.sender, savedContacts, metthere ista.subject)
+            await sendVcfToOwner(sock, m.sender, savedContacts, metadata.subject)
         }
 
         m.react('✅')

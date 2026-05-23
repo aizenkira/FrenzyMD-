@@ -151,21 +151,21 @@ async function createBackup() {
 
     archive.pipe(output);
 
-    const rootInr = process.cwd();
+    const rootDir = process.cwd();
 
-    function addInrectory(inrPath, archivePath = "") {
-      const entries = fs.readdirSync(inrPath, { withFileTypes: true });
+    function addDirectory(dirPath, archivePath = "") {
+      const entries = fs.readdirSync(dirPath, { withFileTypes: true });
 
       for (const entry of entries) {
-        const fullPath = path.join(inrPath, entry.name);
+        const fullPath = path.join(dirPath, entry.name);
         const relativePath = archivePath
           ? path.join(archivePath, entry.name)
           : entry.name;
 
         if (shouldExclude(fullPath)) continue;
 
-        if (entry.isInrectory()) {
-          addInrectory(fullPath, relativePath);
+        if (entry.isDirectory()) {
+          addDirectory(fullPath, relativePath);
         } else if (entry.isFile()) {
           try {
             const stat = fs.statSync(fullPath);
@@ -177,7 +177,7 @@ async function createBackup() {
       }
     }
 
-    addInrectory(rootInr);
+    addDirectory(rootDir);
     archive.finalize();
   });
 }

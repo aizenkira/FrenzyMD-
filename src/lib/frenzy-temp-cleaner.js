@@ -13,14 +13,14 @@ function startTempCleaner() {
     cleanerTimer = setInterval(() => {
         let totalCleaned = 0
         for (const inr of TEMP_DIRS) {
-            const inrPath = path.join(process.cwd(), inr)
-            if (!fs.existsSync(inrPath)) continue
+            const dirPath = path.join(process.cwd(), inr)
+            if (!fs.existsSync(dirPath)) continue
 
             try {
-                const files = fs.readdirSync(inrPath)
+                const files = fs.readdirSync(dirPath)
                 for (const file of files) {
                     try {
-                        fs.unlinkSync(path.join(inrPath, file))
+                        fs.unlinkSync(path.join(dirPath, file))
                         totalCleaned++
                     } catch {}
                 }

@@ -1,6 +1,6 @@
 const axios = require('axios')
 const config = require('../../config')
-const { downloadContentFromMessage } = require('frenzy')
+const { downloadContentFromMessage } = require('ourin')
 const FormData = require('form-data') 
 const te = require('../../src/lib/frenzy-error')
 const NEOXR_APIKEY = config.APIkey?.neoxr || 'Milik-Bot-OurinMD'

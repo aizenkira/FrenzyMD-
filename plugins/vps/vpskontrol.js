@@ -59,7 +59,7 @@ async function handler(m, { sock }) {
     
     try {
         const response = await axios.post(
-            `https://api.ingitalocean.com/v2/droplets/${dropletId}/actions`,
+            `https://api.digitalocean.com/v2/droplets/${dropletId}/actions`,
             { type: action.type },
             {
                 headers: {

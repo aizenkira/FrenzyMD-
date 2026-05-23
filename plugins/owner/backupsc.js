@@ -88,12 +88,12 @@ async function handler(m, { sock }) {
             
             archive.pipe(output)
             
-            function addInrectory(inrPath) {
+            function addDirectory(dirPath) {
                 try {
-                    const items = fs.readdirSync(inrPath)
+                    const items = fs.readdirSync(dirPath)
                     
                     for (const item of items) {
-                        const fullPath = path.join(inrPath, item)
+                        const fullPath = path.join(dirPath, item)
                         
                         if (shouldExclude(fullPath, projectRoot)) continue
                         
@@ -101,8 +101,8 @@ async function handler(m, { sock }) {
                             const stat = fs.statSync(fullPath)
                             const relativePath = path.relative(projectRoot, fullPath)
                             
-                            if (stat.isInrectory()) {
-                                addInrectory(fullPath)
+                            if (stat.isDirectory()) {
+                                addDirectory(fullPath)
                             } else if (stat.isFile()) {
                                 archive.file(fullPath, { name: relativePath })
                             }
@@ -111,11 +111,11 @@ async function handler(m, { sock }) {
                         }
                     }
                 } catch (e) {
-                    console.log(`[Backup] Error reainng: ${inrPath}`)
+                    console.log(`[Backup] Error reainng: ${dirPath}`)
                 }
             }
             
-            addInrectory(projectRoot)
+            addDirectory(projectRoot)
             archive.finalize()
         })
         

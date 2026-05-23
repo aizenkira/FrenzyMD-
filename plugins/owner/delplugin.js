@@ -19,13 +19,13 @@ const pluginConfig = {
     isEnabled: true
 }
 
-function findPluginFile(pluginsInr, name) {
-    const folders = fs.readdirSync(pluginsInr, { withFileTypes: true })
-        .filter(d => d.isInrectory())
+function findPluginFile(pluginsDir, name) {
+    const folders = fs.readdirSync(pluginsDir, { withFileTypes: true })
+        .filter(d => d.isDirectory())
         .map(d => d.name)
     
     for (const folder of folders) {
-        const folderPath = path.join(pluginsInr, folder)
+        const folderPath = path.join(pluginsDir, folder)
         const files = fs.readdirSync(folderPath).filter(f => f.endsWith('.js'))
         
         for (const file of files) {
@@ -58,8 +58,8 @@ async function handler(m, { sock }) {
     m.react('🕕')
     
     try {
-        const pluginsInr = path.join(process.cwd(), 'plugins')
-        const found = findPluginFile(pluginsInr, name)
+        const pluginsDir = path.join(process.cwd(), 'plugins')
+        const found = findPluginFile(pluginsDir, name)
         
         if (!found) {
             m.react('❌')

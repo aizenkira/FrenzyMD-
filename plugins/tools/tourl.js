@@ -3,7 +3,7 @@ const fetch = require('node-fetch')
 const fs = require('fs')
 const mime = require('mime-types')
 const { fileTypeFromBuffer } = require('file-type')
-const { downloadMediaMessage, getContentType } = require('frenzy')
+const { downloadMediaMessage, getContentType } = require('ourin')
 const te = require('../../src/lib/frenzy-error')
 
 const pluginConfig = {

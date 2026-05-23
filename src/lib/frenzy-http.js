@@ -1,4 +1,4 @@
-const { request } = require("uninci")
+const { request } = require("undici")
 
 const REQUEST_TIMEOUT = 60_000
 

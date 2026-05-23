@@ -1,6 +1,6 @@
 
 
-const { generateWAMessageFromContent, proto } = require('frenzy');
+const { generateWAMessageFromContent, proto } = require('ourin');
 const fs = require('fs');
 const path = require('path');
 const { fetchBuffer, getMimeType } = require('./frenzy-utils');

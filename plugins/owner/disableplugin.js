@@ -19,13 +19,13 @@ const pluginConfig = {
 }
 
 function findPluginFile(pluginName) {
-    const pluginsInr = path.join(process.cwd(), 'plugins')
-    const categories = fs.readdirSync(pluginsInr).filter(f => {
-        return fs.statSync(path.join(pluginsInr, f)).isInrectory()
+    const pluginsDir = path.join(process.cwd(), 'plugins')
+    const categories = fs.readdirSync(pluginsDir).filter(f => {
+        return fs.statSync(path.join(pluginsDir, f)).isDirectory()
     })
     
     for (const category of categories) {
-        const categoryPath = path.join(pluginsInr, category)
+        const categoryPath = path.join(pluginsDir, category)
         const files = fs.readdirSync(categoryPath).filter(f => f.endsWith('.js'))
         
         for (const file of files) {

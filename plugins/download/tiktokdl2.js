@@ -5,7 +5,7 @@ const {
     generateWAMessage,
     generateWAMessageFromContent,
     jidNormalizedUser
-} = require('frenzy')
+} = require('ourin')
 const config = require('../../config')
 const te = require('../../src/lib/frenzy-error')
 

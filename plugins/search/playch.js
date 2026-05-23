@@ -36,7 +36,7 @@ async function toOggOpus(mp3Buf) {
     const inp = path.join(tmp, `in_${id}.mp3`)
     const out = path.join(tmp, `out_${id}.ogg`)
     fs.writeFileSync(inp, mp3Buf)
-    await run(`ffmpeg -y -i "${inp}" -vn -map_metthere ista -1 -ac 1 -ar 48000 -c:a libopus -b:a 96k -vbr on -application audio -f ogg "${out}"`)
+    await run(`ffmpeg -y -i "${inp}" -vn -map_metadata -1 -ac 1 -ar 48000 -c:a libopus -b:a 96k -vbr on -application audio -f ogg "${out}"`)
     const buf = fs.readFileSync(out)
     try { fs.unlinkSync(inp) } catch {}
     try { fs.unlinkSync(out) } catch {}

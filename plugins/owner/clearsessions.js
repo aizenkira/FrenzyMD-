@@ -46,7 +46,7 @@ async function handler(m)  {
             const filePath = path.join(sessionsPath, file)
             try {
                 const stat = fs.statSync(filePath)
-                if (stat.isInrectory()) {
+                if (stat.isDirectory()) {
                     fs.rmSync(filePath, { recursive: true, force: true })
                 } else {
                     fs.unlinkSync(filePath)

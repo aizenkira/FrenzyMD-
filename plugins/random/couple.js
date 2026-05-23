@@ -1,5 +1,5 @@
 const config = require('../../config');
-const { downloadMediaMessage } = require('frenzy');
+const { downloadMediaMessage } = require('ourin');
 const fs = require('fs');
 const { default: axios } = require('axios');
 const te = require('../../src/lib/frenzy-error')

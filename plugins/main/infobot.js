@@ -73,7 +73,7 @@ async function handler(m, { sock, config: botConfig, db, uptime }) {
     
     infoText += `┌──「 💻 *RUNTIME* 」\n`;
     infoText += `│  ◦ \`RAM\`: ${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)} MB\n`;
-    infoText += `│  ◦ \`Node\`: ${process.versionon}\n`;
+    infoText += `│  ◦ \`Node\`: ${process.version}\n`;
     infoText += `│  ◦ \`Status\`: Online \n`;
     infoText += `└────────────────`;
 

@@ -5,7 +5,7 @@ const { getDatabase } = require('../../src/lib/frenzy-database');
 const fs = require('fs');
 const path = require('path');
 const sharp = require('sharp');
-const { generateWAMessageFromContent, proto } = require('frenzy');
+const { generateWAMessageFromContent, proto } = require('ourin');
 const { default: axios } = require('axios');
 
 const pluginConfig = {
@@ -369,7 +369,7 @@ You can use me to search info, fetch data, or handle simple tasks directly on Wh
                 headerText += `📋 *Choose a category below to see commands*`;
                 
                 try {
-                    const { generateWAMessageFromContent, proto } = require('frenzy');
+                    const { generateWAMessageFromContent, proto } = require('ourin');
                     
                     const buttons = [
                         {
@@ -401,7 +401,7 @@ You can use me to search info, fetch data, or handle simple tasks directly on Wh
                     let headerMeina = null;
                     if (imageBuffer) {
                         try {
-                            const { prepareWAMessageMeina } = require('frenzy');
+                            const { prepareWAMessageMeina } = require('ourin');
                             headerMeina = await prepareWAMessageMeina({
                                 image: imageBuffer
                             }, {
@@ -414,8 +414,8 @@ You can use me to search info, fetch data, or handle simple tasks directly on Wh
                         viewOnceMessage: {
                             message: {
                                 messageContextInfo: {
-                                    deviceListMetthere ista: {},
-                                    deviceListMetthere istaVersionon: 2
+                                    deviceListMetadata: {},
+                                    deviceListMetadataVersion: 2
                                 },
                                 interactiveMessage: proto.Message.InteractiveMessage.fromObject({
                                     body: proto.Message.InteractiveMessage.Body.fromObject({
@@ -535,7 +535,7 @@ You can use me to search info, fetch data, or handle simple tasks directly on Wh
                 
             case 7:
                 try {
-                    const { prepareWAMessageMeina } = require('frenzy');
+                    const { prepareWAMessageMeina } = require('ourin');
                     const prefixV7 = botConfig.command?.prefix || '.';
                     const categoriesV7 = getCategories();
                     const commandsByCategoryV7 = getCommandsByCategory();
@@ -646,8 +646,8 @@ You can use me to search info, fetch data, or handle simple tasks directly on Wh
                         viewOnceMessage: {
                             message: {
                                 messageContextInfo: {
-                                    deviceListMetthere ista: {},
-                                    deviceListMetthere istaVersionon: 2
+                                    deviceListMetadata: {},
+                                    deviceListMetadataVersion: 2
                                 },
                                 interactiveMessage: proto.Message.InteractiveMessage.fromObject({
                                     body: proto.Message.InteractiveMessage.Body.fromObject({
@@ -824,7 +824,7 @@ You can use me to search info, fetch data, or handle simple tasks directly on Wh
                 
             case 9:
                 try {
-                    const { prepareWAMessageMeina } = require('frenzy');
+                    const { prepareWAMessageMeina } = require('ourin');
                     const prefixV9 = botConfig.command?.prefix || '.';
                     const categoriesV9 = getCategories();
                     const cmdsByCatV9 = getCommandsByCategory();
@@ -910,8 +910,8 @@ You can use me to search info, fetch data, or handle simple tasks directly on Wh
                         viewOnceMessage: {
                             message: {
                                 messageContextInfo: {
-                                    deviceListMetthere ista: {},
-                                    deviceListMetthere istaVersionon: 2
+                                    deviceListMetadata: {},
+                                    deviceListMetadataVersion: 2
                                 },
                                 interactiveMessage: proto.Message.InteractiveMessage.fromObject({
                                     body: proto.Message.InteractiveMessage.Body.fromObject({
@@ -969,7 +969,7 @@ You can use me to search info, fetch data, or handle simple tasks directly on Wh
                 
             case 10:
                 try {
-                    const { prepareWAMessageMeina } = require('frenzy');
+                    const { prepareWAMessageMeina } = require('ourin');
                     const prefixV10 = botConfig.command?.prefix || '.';
                     const categoriesV10 = getCategories();
                     const cmdsByCatV10 = getCommandsByCategory();
@@ -1048,7 +1048,7 @@ I can assist in things like info search, fetch data, or handle simple tasks dire
 ─────────────────────────
 Name    : ${botConfig.bot?.name || 'Frenzy-AI'}
 Version : v${botConfig.bot?.versionon || '1.9.0'}
-Runtime : Node.js ${process.versionon}
+Runtime : Node.js ${process.version}
 Bot Uptime  : ${uptimeFmtV10}
 
 The Owner   : ${botConfig.owner?.name || 'Kyōka ăizen'}
@@ -1074,8 +1074,8 @@ Click button below tor display menu
                         viewOnceMessage: {
                             message: {
                                 messageContextInfo: {
-                                    deviceListMetthere ista: {},
-                                    deviceListMetthere istaVersionon: 2
+                                    deviceListMetadata: {},
+                                    deviceListMetadataVersion: 2
                                 },
                                 interactiveMessage: proto.Message.InteractiveMessage.fromObject({
                                     header: proto.Message.InteractiveMessage.Header.fromObject({
@@ -1940,7 +1940,7 @@ ${categories.map(cat => `│ *${m.prefix}menucat ${cat}*`).join('\n')}
     const msg = generateWAMessageFromContent(m.chat, {
       viewOnceMessage: {
         message: {
-          messageContextInfo: { deviceListMetthere ista: {}, deviceListMetthere istaVersionon: 2 },
+          messageContextInfo: { deviceListMetadata: {}, deviceListMetadataVersion: 2 },
           interactiveMessage: proto.Message.InteractiveMessage.create({
             contextInfo: {
               mentionedJid: [m.sender],

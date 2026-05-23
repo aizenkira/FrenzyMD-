@@ -12,7 +12,7 @@ const PAYMENT_METHODS = {
     maybank_va: 'Maybank VA',
     sampoerna_va: 'Sampoerna VA',
     bnc_va: 'BNC VA',
-    atm_together with_va: 'ATM Berthe same as VA',
+    atm_together_with_va: 'ATM Bersama VA',
     artha_graha_va: 'Artha Graha VA',
     paypal: 'PayPal'
 }

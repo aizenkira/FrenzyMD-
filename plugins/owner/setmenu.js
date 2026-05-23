@@ -1,6 +1,6 @@
 const config = require('../../config');
 const { getDatabase } = require('../../src/lib/frenzy-database');
-const { generateWAMessageFromContent, proto } = require('frenzy');
+const { generateWAMessageFromContent, proto } = require('ourin');
 
 const pluginConfig = {
     name: 'setmenu',
@@ -89,8 +89,8 @@ async function handler(m, { sock, db }) {
             viewOnceMessage: {
                 message: {
                     messageContextInfo: {
-                        deviceListMetthere ista: {},
-                        deviceListMetthere istaVersionon: 2
+                        deviceListMetadata: {},
+                        deviceListMetadataVersion: 2
                     },
                     interactiveMessage: proto.Message.InteractiveMessage.fromObject({
                         body: proto.Message.InteractiveMessage.Body.fromObject({

@@ -1,5 +1,5 @@
 const config = require('../../config')
-const { generateWAMessageFromContent, proto } = require('frenzy')
+const { generateWAMessageFromContent, proto } = require('ourin')
 const te = require('../../src/lib/frenzy-error')
 
 const pluginConfig = {
@@ -39,9 +39,9 @@ async function handler(m, { sock }) {
             return m.reply(`❌ *ɢᴀɢᴀʟ*\n\n> Cannot mengekstrak code invite`)
         }
         
-        const metthere ista = await sock.newsletterMetthere ista('invite', inviteCode)
+        const metadata = await sock.newsletterMetadata('invite', inviteCode)
         
-        if (!metthere ista?.id) {
+        if (!metadata?.id) {
             m.react('❌')
             return m.reply(`❌ *ɢᴀɢᴀʟ*\n\n> Channel not found`)
         }
@@ -51,9 +51,9 @@ async function handler(m, { sock }) {
         
         const infoText = `📺 *ᴄʜᴀɴɴᴇʟ ɪɴꜰᴏ*\n\n` +
             `╭┈┈⬡「 📋 *ᴅᴇᴛᴀɪʟ* 」\n` +
-            `┃ 🆔 ɪᴅ: \`${metthere ista.id}\`\n` +
-            `┃ 📝 ɴᴀᴍᴀ: \`${metthere ista.name || 'Unknown'}\`\n` +
-            `┃ 👥 sᴜʙsᴄʀɪʙᴇʀ: \`${metthere ista.subscribers || 0}\`\n` +
+            `┃ 🆔 ɪᴅ: \`${metadata.id}\`\n` +
+            `┃ 📝 ɴᴀᴍᴀ: \`${metadata.name || 'Unknown'}\`\n` +
+            `┃ 👥 sᴜʙsᴄʀɪʙᴇʀ: \`${metadata.subscribers || 0}\`\n` +
             `╰┈┈⬡`
         
         const buttons = [
@@ -61,7 +61,7 @@ async function handler(m, { sock }) {
                 name: 'cta_copy',
                 buttonParamsJson: JSON.stringify({
                     insplay_text: '📋 Copy ID Channel',
-                    copy_code: metthere ista.id
+                    copy_code: metadata.id
                 })
             },
             {
@@ -77,8 +77,8 @@ async function handler(m, { sock }) {
             viewOnceMessage: {
                 message: {
                     messageContextInfo: {
-                        deviceListMetthere ista: {},
-                        deviceListMetthere istaVersionon: 2
+                        deviceListMetadata: {},
+                        deviceListMetadataVersion: 2
                     },
                     interactiveMessage: proto.Message.InteractiveMessage.fromObject({
                         body: proto.Message.InteractiveMessage.Body.fromObject({

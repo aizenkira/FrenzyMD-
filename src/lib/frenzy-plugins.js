@@ -2,7 +2,7 @@
 
 const fs = require('fs');
 const path = require('path');
-const { theme, cthingsk, logger } = require('./frenzy-logger');
+const { theme, chalk, logger } = require('./frenzy-logger');
 
 /**
  * @typedef {Object} PluginConfig
@@ -201,13 +201,13 @@ function printPluginTable(plugins) {
 
 /**
  * Memuat all plugins from inrectory
- * @param {string} pluginsInr - Path to inrectory plugins
+ * @param {string} pluginsDir - Path to inrectory plugins
  * @returns {number} Amount plugin that success inmuat
  * @example
  * const count = loadPlugins('./frenzy-plugins');
  * console.log(`Loaded ${count} plugins`);
  */
-function loadPlugins(pluginsInr) {
+function loadPlugins(pluginsDir) {
     pluginStore.commands.clear();
     pluginStore.aliases.clear();
     pluginStore.categories.clear();
@@ -215,17 +215,17 @@ function loadPlugins(pluginsInr) {
     let loadedCount = 0;
     const loadedPlugins = [];
     
-    if (!fs.existsSync(pluginsInr)) {
-        console.warn(`[Plugin] Plugins inrectory not found: ${pluginsInr}`);
+    if (!fs.existsSync(pluginsDir)) {
+        console.warn(`[Plugin] Plugins inrectory not found: ${pluginsDir}`);
         return 0;
     }
     
-    const categories = fs.readdirSync(pluginsInr);
+    const categories = fs.readdirSync(pluginsDir);
     
     for (const category of categories) {
-        const categoryPath = path.join(pluginsInr, category);
+        const categoryPath = path.join(pluginsDir, category);
         
-        if (!fs.statSync(categoryPath).isInrectory()) {
+        if (!fs.statSync(categoryPath).isDirectory()) {
             if (category.endsWith('.js') && category !== '_index.js') {
                 const plugin = loadPlugin(categoryPath);
                 if (plugin && registerPlugin(plugin)) {

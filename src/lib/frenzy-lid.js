@@ -1,12 +1,12 @@
 
 
-const { jidDecode } = require('frenzy');
+const { jidDecode } = require('ourin');
 
 const lidCache = new Map();
 
 /**
  * Cache LID to JID mapping
- * Panggil this while processing group metthere ista for save mapping
+ * Panggil this while processing group metadata for save mapping
  * 
  * HANDLES TWO DIFFERENT STRUCTURES:
  * 1. groupMetadata.participants: { id: PN, lid: LID, admin }
@@ -97,7 +97,7 @@ function isLidConverted(jid) {
  * Convert LID to format JID thoughd
  * CATATAN: LID has ID unique that berbeda from number telepon.
  * Fungsi this only replace suffix, for earn number asli
- * usage resolveLidFromParticipants with group metthere ista.
+ * usage resolveLidFromParticipants with group metadata.
  * @param {string} jid - JID that maybe LID
  * @returns {string} JID in format @s.whatsapp.net
  */
@@ -120,13 +120,13 @@ function extractNumber(jid) {
 }
 
 /**
- * Resolve LID or LID-converted JID to JID asli use group metthere ista
+ * Resolve LID or LID-converted JID to JID asli use group metadata
  * Participant structure from frenzy (groups.js):
  * - id: phone_number or jid (tergantung addressingMode)
  * - lid: LID format
  * - admin: type admin
  * @param {string} jid - JID that maybe LID or LID-converted
- * @param {Object[]} participants - Array participant from group metthere ista
+ * @param {Object[]} participants - Array participant from group metadata
  * @returns {string} JID that already resolve to number asli
  */
 function resolveLidFromParticipants(jid, participants = []) {
@@ -170,7 +170,7 @@ function resolveLidFromParticipants(jid, participants = []) {
  * Resolve JID that maybe LID-converted to JID asli
  * Fungsi this menangani case inmana JID already punya @s.whatsapp.net but numbernya is the LID number
  * @param {string} jid - JID for inresolve
- * @param {Object[]} participants - Array participant from group metthere ista
+ * @param {Object[]} participants - Array participant from group metadata
  * @returns {string} JID with number telepon asli
  */
 function resolveAnyLidToJid(jid, participants = []) {
@@ -292,8 +292,8 @@ async function resolveParticipant(msg, sock) {
     }
     if (msg.key?.remoteJid?.endsWith('@g.us') && sock) {
         try {
-            const metthere ista = await sock.groupMetadata(msg.key.remoteJid);
-            return resolveLidFromParticipants(participant, metthere ista.participants);
+            const metadata = await sock.groupMetadata(msg.key.remoteJid);
+            return resolveLidFromParticipants(participant, metadata.participants);
         } catch {
             // Fallback
         }
@@ -302,7 +302,7 @@ async function resolveParticipant(msg, sock) {
 }
 
 /**
- * Helper for earn JID asli from participant (with group metthere ista)
+ * Helper for earn JID asli from participant (with group metadata)
  * Berdasarkan struktur participant from Baileys:
  * - id: can LID or JID asli
  * - jid: JID asli (number telepon)

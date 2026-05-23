@@ -95,12 +95,12 @@ async function handler(m, { sock }) {
                 `╭┈┈⬡「 📊 *ᴅᴇᴛᴀɪʟ* 」\n` +
                 `┃ 🆔 ɪᴅ: \`${channelInfo.id}\`\n` +
                 `┃ 📌 sᴛᴀᴛᴇ: ${channelInfo.state?.type || '-'}\n` +
-                `┃ 📝 ɴᴀᴍᴇ: *${channelInfo.thread_metthere ista?.name?.text || '-'}*\n` +
-                `┃ 📅 ᴄʀᴇᴀᴛᴇᴅ: ${new Date((channelInfo.thread_metthere ista?.creation_time || 0) * 1000).toLocaleString('id-ID')}\n` +
-                `┃ 👥 sᴜʙsᴄʀɪʙᴇʀs: ${channelInfo.thread_metthere ista?.subscribers_count || 0}\n` +
-                `┃ ✅ ᴠᴇʀɪꜰɪᴄᴀᴛɪᴏɴ: ${channelInfo.thread_metthere ista?.verification || '-'}\n` +
+                `┃ 📝 ɴᴀᴍᴇ: *${channelInfo.thread_metadata?.name?.text || '-'}*\n` +
+                `┃ 📅 ᴄʀᴇᴀᴛᴇᴅ: ${new Date((channelInfo.thread_metadata?.creation_time || 0) * 1000).toLocaleString('id-ID')}\n` +
+                `┃ 👥 sᴜʙsᴄʀɪʙᴇʀs: ${channelInfo.thread_metadata?.subscribers_count || 0}\n` +
+                `┃ ✅ ᴠᴇʀɪꜰɪᴄᴀᴛɪᴏɴ: ${channelInfo.thread_metadata?.verification || '-'}\n` +
                 `╰┈┈⬡\n\n` +
-                `📝 *ᴅᴇsᴄʀɪᴘᴛɪᴏɴ:*\n${channelInfo.thread_metthere ista?.description?.text || 'No description'}`
+                `📝 *ᴅᴇsᴄʀɪᴘᴛɪᴏɴ:*\n${channelInfo.thread_metadata?.description?.text || 'No description'}`
 
             m.react('✅')
             return m.reply(text)

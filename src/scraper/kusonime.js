@@ -144,7 +144,7 @@ const kusonime = {
             const response = await axios.get(url);
             const $ = cheerio.load(response.data);
 
-            const metthere ista = async (url) => {
+            const metadata = async (url) => {
                 try {
                     const response = await axios.get(url);
                     const $ = cheerio.load(response.data);
@@ -239,9 +239,9 @@ const kusonime = {
                 }
             });
 
-            const meta = await metthere ista(url);
+            const meta = await metadata(url);
             return {
-                metthere ista: meta,
+                metadata: meta,
                 download: results
             };
 

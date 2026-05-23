@@ -3,7 +3,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const dataPath = path.join(__inrname, '../data');
+const dataPath = path.join(__dirname, '../data');
 
 const gameCache = new Map();
 const gameSessions = new Map();
@@ -137,8 +137,8 @@ function isSurrender(text) {
     if (!text) return false;
     const surrenderWords = [
         'nyerah', 'I nyerah', 'gw nyerah', 'gue nyerah', 'give up',
-        'I give up', 'i give up', 'skip', 'skip', 'don't know',
-        'gor', 'don't know', 'no idea', 'I don't know', 'give up'
+        'I give up', 'i give up', 'skip', 'skip', "don't know",
+        'gor', "don't know", 'no idea', "I don't know", 'give up'
     ];
     const normalized = text.toLowerCase().trim();
     return surrenderWords.some(word => normalized === word);

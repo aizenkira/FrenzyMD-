@@ -7,7 +7,7 @@ const {
     generateWAMessage,
     areJidsSameUser,
     normalizeMessageContent
-} = require('frenzy');
+} = require('ourin');
 const { writeFileSync, mkdirSync, existsSync, unlinkSync } = require('fs');
 const { join } = require('path');
 const config = require('../../config');
@@ -123,7 +123,7 @@ const PP_CACHE_TTL = 5 * 60 * 1000;
  * @property {boolean} isQuoted - Apakah there is message that in-quote
  * @property {Object} quoted - Objek message that in-quote
  * @property {string[]} mentionedJid - Array JID that in-mention
- * @property {Object} groupMetadata - Metthere ista group (if in group)
+ * @property {Object} groupMetadata - Metadata group (if in group)
  * @property {boolean} isAdmin - Apakah pengirim admin group
  * @property {boolean} isBotAdmin - Apakah bot is the admin
  * @property {Function} reply - Fungsi reply text

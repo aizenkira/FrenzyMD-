@@ -1,7 +1,7 @@
 const fs = require('fs')
 const path = require('path')
 const { mconverter } = require('../../src/scraper/mconverter')
-const { downloadContentFromMessage } = require('frenzy')
+const { downloadContentFromMessage } = require('ourin')
 const config = require('../../config')
 const te = require('../../src/lib/frenzy-error')
 

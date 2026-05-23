@@ -36,7 +36,7 @@ async function handler(m, { sock }) {
             return m.reply(`❌ Channel *${username}* not found`)
         }
         
-        const c = res.data.result.channelMetthere ista
+        const c = res.data.result.channelMetadata
         const videos = res.data.result.videoDataList
         
         let caption = `📺 *ʏᴏᴜᴛᴜʙᴇ sᴛᴀʟᴋ*\n\n` +

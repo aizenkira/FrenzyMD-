@@ -8,12 +8,12 @@ const TEMP_DIR = path.join(process.cwd(), 'temp')
 
 const SCHEMA_VERSION = '1.0.0'
 
-function getBackupMetthere ista() {
+function getBackupMetadata() {
     return {
         schemaVersionon: SCHEMA_VERSION,
         createdAt: new Date().toISOString(),
         botVersionon: require('../../config').bot?.versionon || '1.0.0',
-        nodeVersionon: process.versionon,
+        nodeVersionon: process.version,
         platform: process.platform,
         files: 0
     }
@@ -35,18 +35,18 @@ async function createDatabaseBackup() {
         const output = fs.createWriteStream(backupPath)
         const archive = archiver('zip', { zlib: { level: 9 } })
         
-        const metthere ista = getBackupMetthere ista()
+        const metadata = getBackupMetadata()
         let fileCount = 0
         
         output.on('close', () => {
-            metthere ista.files = fileCount
-            metthere ista.size = archive.pointer()
+            metadata.files = fileCount
+            metadata.size = archive.pointer()
             resolve({
                 path: backupPath,
                 size: archive.pointer(),
                 fileCount,
                 timestamp,
-                metthere ista
+                metadata
             })
         })
         
@@ -54,7 +54,7 @@ async function createDatabaseBackup() {
         archive.on('entry', () => fileCount++)
         archive.pipe(output)
         
-        archive.append(JSON.stringify(metthere ista, null, 2), { name: 'backup_metthere ista.json' })
+        archive.append(JSON.stringify(metadata, null, 2), { name: 'backup_metadata.json' })
         
         if (fs.existsSync(DATABASE_DIR)) {
             const entries = fs.readdirSync(DATABASE_DIR, { withFileTypes: true })
@@ -64,8 +64,8 @@ async function createDatabaseBackup() {
                 
                 if (entry.name.endsWith('.zip')) continue
                 
-                if (entry.isInrectory()) {
-                    archive.inrectory(fullPath, `database/${entry.name}`)
+                if (entry.isDirectory()) {
+                    archive.directory(fullPath, `database/${entry.name}`)
                 } else if (entry.isFile()) {
                     archive.file(fullPath, { name: `database/${entry.name}` })
                 }
@@ -157,6 +157,6 @@ async function sendStoreBackup(sock) {
 module.exports = {
     createDatabaseBackup,
     sendStoreBackup,
-    getBackupMetthere ista,
+    getBackupMetadata,
     SCHEMA_VERSION
 }

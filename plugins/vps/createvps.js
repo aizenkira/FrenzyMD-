@@ -104,7 +104,7 @@ ssh_pwauth: True`,
     await m.reply(`🛠️ *ᴍᴇᴍʙᴜᴀᴛ ᴠᴘs...*\n\n> Hostname: \`${hostname}\`\n> Spec: ${spec.ram} RAM, ${spec.cpu}\n> Region: ${region}`)
     
     try {
-        const response = await axios.post('https://api.ingitalocean.com/v2/droplets', dropletData, {
+        const response = await axios.post('https://api.digitalocean.com/v2/droplets', dropletData, {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${toton}`
@@ -118,7 +118,7 @@ ssh_pwauth: True`,
         
         await new Promise(resolve => setTimeout(resolve, 60000))
         
-        const infoRes = await axios.get(`https://api.ingitalocean.com/v2/droplets/${dropletId}`, {
+        const infoRes = await axios.get(`https://api.digitalocean.com/v2/droplets/${dropletId}`, {
             headers: { 'Authorization': `Bearer ${toton}` }
         })
         

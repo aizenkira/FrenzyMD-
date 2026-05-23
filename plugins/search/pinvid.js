@@ -4,7 +4,7 @@ const { promisify } = require('util')
 const fs = require('fs')
 const path = require('path')
 const crypto = require('crypto')
-const { generateWAMessage, generateWAMessageFromContent, jidNormalizedUser } = require('frenzy')
+const { generateWAMessage, generateWAMessageFromContent, jidNormalizedUser } = require('ourin')
 const config = require('../../config')
 const te = require('../../src/lib/frenzy-error')
 

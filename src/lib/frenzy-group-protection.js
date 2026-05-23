@@ -1,6 +1,6 @@
 
 
-const { downloadMediaMessage } = require("frenzy");
+const { downloadMediaMessage } = require("ourin");
 const { isLid, lidToJid } = require("./frenzy-lid");
 const config = require("../../config");
 

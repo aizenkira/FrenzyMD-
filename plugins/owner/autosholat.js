@@ -1,6 +1,6 @@
 const { getDatabase } = require('../../src/lib/frenzy-database');
 const config = require('../../config');
-const { getTodaySchedule, extractPrayerTimes, searchCity } = require('../../src/lib/frenzy-prayer-api');
+const { getTodaySchedule, extractPrayerTimes, searchCity } = require('../../src/lib/frenzy-sholat-api');
 const te = require('../../src/lib/frenzy-error')
 
 const pluginConfig = {

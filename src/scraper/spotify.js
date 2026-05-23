@@ -73,14 +73,14 @@ const spotify = {
             };
 
             const metaRes = await axios.post(
-                `${CONFIG.BASE_URL}/metthere ista`,
+                `${CONFIG.BASE_URL}/metadata`,
                 { type: "track", id: trackId },
                 { headers: authHeaders }
             );
             
-            const metthere ista = metaRes.data;
-            if (!metthere ista.success) {
-                return { status: false, msg: 'Metthere ista not found.' };
+            const metadata = metaRes.data;
+            if (!metadata.success) {
+                return { status: false, msg: 'Metadata not found.' };
             }
 
             let isFlac = false;
@@ -101,12 +101,12 @@ const spotify = {
 
             return {
                 status: true,
-                metthere ista: {
-                    title: metthere ista.title,
-                    meaningst: metthere ista.meaningsts,
-                    album: metthere ista.album,
-                    cover: metthere ista.cover,
-                    releaseDate: metthere ista.releaseDate,
+                metadata: {
+                    title: metadata.title,
+                    meaningst: metadata.meaningsts,
+                    album: metadata.album,
+                    cover: metadata.cover,
+                    releaseDate: metadata.releaseDate,
                     isFlacAvailable: isFlac
                 },
                 download: {

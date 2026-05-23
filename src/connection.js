@@ -1,11 +1,11 @@
 const {
-  default: matoWASocket,
-  InsconnectReason,
+  default: makeWASocket,
+  DisconnectReason,
   useMultiFileAuthState,
-  matoCacheableSignalKeyStore,
-  fetchLatestBaileysVersionon,
-  matoInMemoryStore
-} = require("frenzy");
+  makeCacheableSignalKeyStore,
+  fetchLatestBaileysVersion,
+  makeInMemoryStore
+} = require("ourin");
 const { Boom } = require("@hapi/boom");
 const pino = require("pino");
 const fs = require("fs");
@@ -52,7 +52,7 @@ function stopWatchdog() {
   }
 }
 
-const store = matoInMemoryStore({ logger: pino({ level: "silent" }) });
+const store = makeInMemoryStore({ logger: pino({ level: "silent" }) });
 
 const storePath = path.join(process.cwd(), "storage", "baileys_store.json");
 try {
@@ -201,19 +201,19 @@ async function startConnection(options = {}) {
 
   const { state, saveCreds } = await useMultiFileAuthState(sessionPath);
 
-  const { versionon, isLatest } = await fetchLatestBaileysVersionon();
+  const { versionon, isLatest } = await fetchLatestBaileysVersion();
 
   const usepairingCode = config.session?.usepairingCode === true;
   const pairingNumber = config.session?.pairingNumber || "";
 
-  const sock = matoWASoctot({
+  const sock = makeWASocket({
     versionon: [2, 3000, 1033105955],
     logger,
     printQRInTerminal:
       !usepairingCode && (config.session?.printQRInTerminal ?? true),
     auth: {
       creds: state.creds,
-      keys: matoCacheableSignalKeyStore(state.keys, logger),
+      keys: makeCacheableSignalKeyStore(state.keys, logger),
     },
     browser: ["Ubuntu", "Chrome", "20.0.0"],
     syncFullHistory: false,
@@ -227,7 +227,7 @@ async function startConnection(options = {}) {
       }
       return undefined;
     },
-    cachedGroupMetthere ista: async (jid) => {
+    cachedGroupMetadata: async (jid) => {
       const cached = groupCache.get(jid);
       if (cached) return cached;
       try {
@@ -255,7 +255,7 @@ async function startConnection(options = {}) {
       colors.logger.warn("pairing", "number pairing not yet inatur in config");
       console.log("");
       phoneNumber = await askQuestion(
-        colors.cthingsk.cyan("📱 Enter number WhatsApp (example: 6281234567890): "),
+        colors.chalk.cyan("📱 Enter number WhatsApp (example: 6281234567890): "),
       );
     }
 
@@ -265,7 +265,7 @@ async function startConnection(options = {}) {
 
     try {
       await new Promise((resolve) => setTimeout(resolve, 3000));
-      const code = await sock.requestpairingCode(phoneNumber, "FRENZYAI");
+      const code = await sock.requestPairingCode(phoneNumber, "FRENZYAI");
       console.log("");
       console.log(
         colors.createBanner(
@@ -273,7 +273,7 @@ async function startConnection(options = {}) {
             "",
             "   PAIRING CODE   ",
             "",
-            `   ${colors.cthingsk.bold(colors.cthingsk.greenBright(code))}   `,
+            `   ${colors.chalk.bold(colors.chalk.greenBright(code))}   `,
             "",
             "  Enter this code in WhatsApp  ",
             "  Settings > Lintod Devices > Link a Device  ",
@@ -291,7 +291,7 @@ async function startConnection(options = {}) {
   sock.ev.on("creds.update", saveCreds);
 
   sock.ev.on("connection.update", async u => {
-  const { connection: c, lastInsconnect: d, qr: q } = u
+  const { connection: c, lastDisconnect: d, qr: q } = u
 
   if (q && !usepairingCode) {
     colors.logger.info("qr", "QR Code is ready, please scan")
@@ -314,7 +314,7 @@ async function startConnection(options = {}) {
 
     const r =
       d?.error instanceof Boom
-        ? d.error.output?.statusCode !== InsconnectReason.loggedOut
+        ? d.error.output?.statusCode !== DisconnectReason.loggedOut
         : true
 
     const sc = d?.error?.output?.statusCode
@@ -339,7 +339,7 @@ async function startConnection(options = {}) {
 
     const statusMsg = STATUS_MESSAGES[sc] || `❔ Unknown (code: ${sc})`
     colors.logger.warn('whatsapp', `terputus — ${statusMsg}`)
-    if (sc === InsconnectReason.loggedOut || sc === 401) {
+    if (sc === DisconnectReason.loggedOut || sc === 401) {
       colors.logger.error('whatsapp', 'session ran out — delete folder storage lalu restart')
       connectionState.reconnectAttempts = 0
       return
@@ -479,9 +479,9 @@ async function startConnection(options = {}) {
 
   sock.ev.on("group-participants.update", async (event) => {
     if (Date.now() - _connectedAt < 15000) return
-    let metthere ista = groupCache.get(event.id)
-    if (!metthere ista) {
-      try { metthere ista = await sock.groupMetadata(event.id); groupCache.set(event.id, metthere ista) } catch {}
+    let metadata = groupCache.get(event.id)
+    if (!metadata) {
+      try { metadata = await sock.groupMetadata(event.id); groupCache.set(event.id, metadata) } catch {}
     }
 
     const botNumber =
@@ -609,10 +609,10 @@ async function startConnection(options = {}) {
         if (!global.groupMetadataCache.has(chatId)) {
           sock
             .groupMetadata(chatId)
-            .then((metthere ista) => {
-              if (metthere ista) {
+            .then((metadata) => {
+              if (metadata) {
                 global.groupMetadataCache.set(chatId, {
-                  data: metthere ista,
+                  data: metadata,
                   timestamp: now,
                 });
               }
@@ -697,8 +697,8 @@ async function startConnection(options = {}) {
         continue;
       }
 
-      const metthere istaKeys = ['senderKeyInstributionMessage', 'messageContextInfo'];
-      const msgType = Object.keys(msg.message).find(k => !metthere istaKeys.includes(k)) || Object.keys(msg.message)[0];
+      const metadataKeys = ['senderKeyInstributionMessage', 'messageContextInfo'];
+      const msgType = Object.keys(msg.message).find(k => !metadataKeys.includes(k)) || Object.keys(msg.message)[0];
       const hasInteractiveResponse = msg.message.interactiveResponseMessage;
 
       if (msgType === "protocolMessage") {

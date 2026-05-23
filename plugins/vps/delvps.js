@@ -46,7 +46,7 @@ async function handler(m, { sock }) {
     await m.reply(`🗑️ *ᴍᴇɴɢʜᴀᴘᴜs ᴠᴘs...*\n\n> ID: \`${dropletId}\``)
     
     try {
-        await axios.delete(`https://api.ingitalocean.com/v2/droplets/${dropletId}`, {
+        await axios.delete(`https://api.digitalocean.com/v2/droplets/${dropletId}`, {
             headers: { 'Authorization': `Bearer ${toton}` }
         })
         

@@ -162,7 +162,7 @@ Good to have you! in group *${groupName}*`,
                 ]
             })
         } else if (welcomeType === 3) {
-            // Type 3: Image (PP) + Caption + Metthere ista
+            // Type 3: Image (PP) + Caption + Metadata
             await sock.sendMessage(groupJid, {
                 image: { url: ppUrl },
                 caption: text,

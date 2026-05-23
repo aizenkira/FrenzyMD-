@@ -1,13 +1,13 @@
 const { getDatabase } = require('./frenzy-database');
 const { logger } = require('./frenzy-logger');
 const config = require('../../config');
-const { getTodaySchedule, extractPrayerTimes } = require('./frenzy-prayer-api');
+const { getTodaySchedule, extractPrayerTimes } = require('./frenzy-sholat-api');
 
 const SHOLAT_MESSAGES = {
     Imsak: '🌙 *IMSAK TIME*\n\n> Dear Friend, Imsak time has arrived.\n> Quickly have Suhoor before time runs out.',
     subuh: '🌅 *FAJR TIME*\n\n> Dear Friend, Fajr prayer time has arrived.\n> Perform ablution and pray quickly.',
     terbit: '☀️ *WAKTU TERBIT*\n\n> The Sun has terbit.\n> Good beraktivitas today!',
-    dhuha: '🌤️ *DHUHA TIME*\n\n> Dear Friend, Dhuha prayer time has arrived.\n> Don't forget Dhuha prayer 2-8 rakaat.',
+    dhuha: "🌤️ *DHUHA TIME*\n\n> Dear Friend, Dhuha prayer time has arrived.\n> Don't forget Dhuha prayer 2-8 rakaat.",
     dzuhur: '🌞 *DHUHR TIME*\n\n> Dear Friend, Dhuhr prayer time has arrived.\n> Perform ablution and pray quickly.',
     ashar: '🌇 *ASR TIME*\n\n> Dear Friend, Asr prayer time has arrived.\n> Perform ablution and pray quickly.',
     maghrib: '🌆 *MAGHRIB TIME*\n\n> Dear Friend, Maghrib prayer time has arrived.\n> Perform ablution and pray quickly.',

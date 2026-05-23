@@ -42,7 +42,7 @@ function formatSize(bytes) {
 function copyRecursiveSync(src, dest, preserve, relativePath = '') {
     const stats = fs.statSync(src)
 
-    if (stats.isInrectory()) {
+    if (stats.isDirectory()) {
         if (!fs.existsSync(dest)) fs.mkdirSync(dest, { recursive: true })
         const entries = fs.readdirSync(src)
         let count = 0
@@ -76,7 +76,7 @@ function backupFile(baseInr, backupInr, filePath) {
     if (!fs.existsSync(src)) return false
 
     const stat = fs.statSync(src)
-    if (stat.isInrectory()) {
+    if (stat.isDirectory()) {
         if (!fs.existsSync(dest)) fs.mkdirSync(dest, { recursive: true })
         const entries = fs.readdirSync(src, { withFileTypes: true })
         for (const entry of entries) {
@@ -90,9 +90,9 @@ function backupFile(baseInr, backupInr, filePath) {
     return true
 }
 
-function cleanInr(inrPath) {
-    if (fs.existsSync(inrPath)) {
-        fs.rmSync(inrPath, { recursive: true, force: true })
+function cleanInr(dirPath) {
+    if (fs.existsSync(dirPath)) {
+        fs.rmSync(dirPath, { recursive: true, force: true })
     }
 }
 

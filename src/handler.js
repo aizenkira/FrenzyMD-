@@ -510,8 +510,8 @@ async function messageHandler(msg, sock, options = {}) {
       }
     }
 
-    const botId = sock.user?.id?.split(":")[0] || "unknown";
-    const msgKey = `${botId}_${m.chat}_${m.sender}_${m.id}`;
+    const currentBotId = sock.user?.id?.split(":")[0] || "unknown";
+    const msgKey = `${currentBotId}_${m.chat}_${m.sender}_${m.id}`;
     if (debounceMessage(msgKey)) {
       return;
     }

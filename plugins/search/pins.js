@@ -1,5 +1,5 @@
 const { pinterest } = require('btch-downloader')
-const { generateWAMessage, generateWAMessageFromContent, jidNormalizedUser } = require('frenzy')
+const { generateWAMessage, generateWAMessageFromContent, jidNormalizedUser } = require('ourin')
 const axios = require('axios')
 const crypto = require('crypto')
 const te = require('../../src/lib/frenzy-error')

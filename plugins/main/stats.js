@@ -66,7 +66,7 @@ async function handler(m, { sock, db, uptime, config: botConfig }) {
             `> 👥 Groups: ${totalGroups}\n\n` +
             `\`\`\`━━━ sʏsᴛᴇᴍ ━━━\`\`\`\n` +
             `> *Platform:* ${os.platform()} ${os.arch()}\n` +
-            `> *Node:* ${process.versionon}\n` +
+            `> *Node:* ${process.version}\n` +
             `> *CPU Load:* ${cpuUsage}%\n` +
             `> *RAM Used:* ${formatBytes(usedMem)} / ${formatBytes(totalMem)}\n` +
             `> *Heap:* ${formatBytes(memUsed.heapUsed)} / ${formatBytes(memUsed.heapTotal)}\n\n` +

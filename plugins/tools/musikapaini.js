@@ -1,7 +1,7 @@
 const axios = require('axios')
 const FormData = require('form-data')
 const config = require('../../config')
-const { downloadMediaMessage } = require('frenzy')
+const { downloadMediaMessage } = require('ourin')
 const path = require('path')
 const fs = require('fs')
 const te = require('../../src/lib/frenzy-error')

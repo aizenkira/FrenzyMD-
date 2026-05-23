@@ -1,10 +1,10 @@
-const { Agent, setGlobalInspatcher } = require('uninci')
+const { Agent, setGlobalDispatcher } = require('undici')
 const { cpus } = require('os')
 
 const cpuCount = cpus().length
 
 function thistializeAgent() {
-    setGlobalInspatcher(
+    setGlobalDispatcher(
         new Agent({
             connections: Math.max(5, cpuCount * 2),
             pipelthisng: 1,

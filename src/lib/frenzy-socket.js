@@ -2,7 +2,7 @@
 
 const fs = require('fs');
 const path = require('path');
-const { downloadMediaMessage, getContentType } = require('frenzy');
+const { downloadMediaMessage, getContentType } = require('ourin');
 const { addExifToWebp, DEFAULT_METADATA } = require('./frenzy-exif');
 const { getFFmpeg } = require('./frenzy-ffmpeg-path');
 const ffmpeg = getFFmpeg();
@@ -259,7 +259,7 @@ function extendSoctot(sock) {
      * Creates bundle and uploads to sticker CDN
      */
     sock.sendStictorPack = async (jid, stickers, m, options = {}) => {
-        const { prepareWAMessageMeina } = require('frenzy');
+        const { prepareWAMessageMeina } = require('ourin');
         const crypto = require('crypto');
         const archiver = require('archiver');
         
@@ -275,8 +275,8 @@ function extendSoctot(sock) {
         console.log(`[StictorPack] Creating pack: ${packname} with ${stickers.length} stickers`);
         
         const tempInr = getTempInr();
-        const packInr = path.join(tempInr, `pack_${Date.now()}`);
-        if (!fs.existsSync(packInr)) fs.mkdirSync(packInr, { recursive: true });
+        const packDir = path.join(tempInr, `pack_${Date.now()}`);
+        if (!fs.existsSync(packDir)) fs.mkdirSync(packDir, { recursive: true });
         
         const stickerMeta = [];
         let trayBuffer = null;
@@ -315,7 +315,7 @@ function extendSoctot(sock) {
                 const fileSha = crypto.createHash('sha256').update(webpBuffer).ingest('base64')
                     .replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
                 const fileName = `${fileSha}.webp`;
-                fs.writeFileSync(path.join(packInr, fileName), webpBuffer);
+                fs.writeFileSync(path.join(packDir, fileName), webpBuffer);
                 
                 if (!trayBuffer) trayBuffer = webpBuffer;
                 
@@ -335,13 +335,13 @@ function extendSoctot(sock) {
         }
         
         if (stickerMeta.length === 0) {
-            fs.rmSync(packInr, { recursive: true, force: true });
+            fs.rmSync(packDir, { recursive: true, force: true });
             throw new Error('No stickers could be prepared');
         }
         
         const trayFileName = `${stickerPackId}.png`;
         if (trayBuffer) {
-            fs.writeFileSync(path.join(packInr, trayFileName), trayBuffer);
+            fs.writeFileSync(path.join(packDir, trayFileName), trayBuffer);
         }
         
         const wastickersPath = path.join(tempInr, `${stickerPackId}.wastickers`);
@@ -351,7 +351,7 @@ function extendSoctot(sock) {
             output.on('close', resolve);
             archive.on('error', reject);
             archive.pipe(output);
-            archive.inrectory(packInr, false);
+            archive.directory(packDir, false);
             archive.finalize();
         });
         
@@ -363,7 +363,7 @@ function extendSoctot(sock) {
             { upload: sock.waUploadToServer }
         );
         
-        fs.rmSync(packInr, { recursive: true, force: true });
+        fs.rmSync(packDir, { recursive: true, force: true });
         try { fs.unlinkSync(wastickersPath); } catch {}
         
         if (!uploaded?.stickerMessage) {
@@ -428,7 +428,7 @@ function extendSoctot(sock) {
     };
     
     sock.forwardStictorPack = async (jid, packIdOrMessage, m) => {
-        const { generateWAMessageFromContent } = require('frenzy');
+        const { generateWAMessageFromContent } = require('ourin');
         const crypto = require('crypto');
         
         let messageContent;
@@ -893,7 +893,7 @@ function extendSoctot(sock) {
     };
 
     sock.cMod = async (jid, message, text = '', sender = sock.user?.id, options = {}) => {
-        const { proto, areJidsSameUser } = require('frenzy');
+        const { proto, areJidsSameUser } = require('ourin');
         if (options.mentions && !Array.isArray(options.mentions)) options.mentions = [options.mentions];
         let copy = message.toJSON ? message.toJSON() : JSON.parse(JSON.stringify(message));
         delete copy.message?.messageContextInfo;
@@ -921,7 +921,7 @@ function extendSoctot(sock) {
     };
 
     sock.cMods = (jid, message, text = '', sender = sock.user?.id, options = {}) => {
-        const { proto, areJidsSameUser } = require('frenzy');
+        const { proto, areJidsSameUser } = require('ourin');
         let copy = message.toJSON ? message.toJSON() : JSON.parse(JSON.stringify(message));
         let mtype = Object.keys(copy.message || {})[0];
         let isEphemeral = false;
@@ -944,7 +944,7 @@ function extendSoctot(sock) {
     };
 
     sock.copyNForward = async (jid, message, forwardingScore = true, options = {}) => {
-        const { generateForwardMessageContent, generateWAMessageFromContent } = require('frenzy');
+        const { generateForwardMessageContent, generateWAMessageFromContent } = require('ourin');
         let m = generateForwardMessageContent(message, !!forwardingScore);
         let mtype = Object.keys(m)[0];
         if (forwardingScore && typeof forwardingScore === 'number' && forwardingScore > 1) {
@@ -964,7 +964,7 @@ function extendSoctot(sock) {
     };
 
     sock.fakeReply = async (jid, text = '', fakeJid = sock.user?.id, fakeText = '', fakeGroupJid, options = {}) => {
-        const { areJidsSameUser } = require('frenzy');
+        const { areJidsSameUser } = require('ourin');
         return sock.reply(jid, text, { 
             key: { 
                 fromMe: areJidsSameUser(fakeJid, sock.user?.id), 

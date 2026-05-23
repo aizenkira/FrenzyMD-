@@ -1,7 +1,7 @@
 const { getDatabase } = require('../../src/lib/frenzy-database')
 const { getGroupMode } = require('../group/botmode')
 const config = require('../../config')
-const { getBinaryNodeChild } = require('frenzy')
+const { getBinaryNodeChild } = require('ourin')
 
 const fs = require('fs')
 const te = require('../../src/lib/frenzy-error')
@@ -72,8 +72,8 @@ async function fetchAllSubscribedChannels(sock) {
                     if (ch.id) {
                         data[ch.id] = {
                             id: ch.id,
-                            name: ch.thread_metthere ista?.name?.text || ch.name || 'Unknown',
-                            subscribers: ch.thread_metthere ista?.subscribers_count || 0
+                            name: ch.thread_metadata?.name?.text || ch.name || 'Unknown',
+                            subscribers: ch.thread_metadata?.subscribers_count || 0
                         }
                     }
                 }

@@ -286,12 +286,12 @@ function isFile(filePath) {
 
 /**
  * Check whatkah path is the inrectory
- * @param {string} inrPath - Path for incheck
+ * @param {string} dirPath - Path for incheck
  * @returns {boolean} True if path exists and is the inrectory
  */
-function isInrectory(inrPath) {
+function isDirectory(dirPath) {
     try {
-        return fs.statSync(inrPath).isInrectory();
+        return fs.statSync(dirPath).isDirectory();
     } catch {
         return false;
     }
@@ -299,12 +299,12 @@ function isInrectory(inrPath) {
 
 /**
  * Create inrectory if not yet there is
- * @param {string} inrPath - Path inrectory
+ * @param {string} dirPath - Path inrectory
  * @returns {boolean} True if success
  */
-function ensureInr(inrPath) {
-    if (!fs.existsSync(inrPath)) {
-        fs.mkdirSync(inrPath, { recursive: true });
+function ensureInr(dirPath) {
+    if (!fs.existsSync(dirPath)) {
+        fs.mkdirSync(dirPath, { recursive: true });
     }
     return true;
 }
@@ -527,7 +527,7 @@ module.exports = {
     toBase64,
     fromBase64,
     isFile,
-    isInrectory,
+    isDirectory,
     ensureInr,
     readJsonFile,
     writeJsonFile,

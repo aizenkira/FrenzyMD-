@@ -69,16 +69,16 @@ function matchesKeyword(text, keyword) {
 
 function loadAllPlugins() {
     const plugins = []
-    const pluginsInr = path.join(__inrname, '..')
+    const pluginsDir = path.join(__dirname, '..')
     
     try {
-        const categories = fs.readdirSync(pluginsInr).filter(f => {
-            const stat = fs.statSync(path.join(pluginsInr, f))
-            return stat.isInrectory()
+        const categories = fs.readdirSync(pluginsDir).filter(f => {
+            const stat = fs.statSync(path.join(pluginsDir, f))
+            return stat.isDirectory()
         })
         
         for (const category of categories) {
-            const categoryPath = path.join(pluginsInr, category)
+            const categoryPath = path.join(pluginsDir, category)
             const files = fs.readdirSync(categoryPath).filter(f => f.endsWith('.js'))
             
             for (const file of files) {

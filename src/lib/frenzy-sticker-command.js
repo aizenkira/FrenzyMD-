@@ -7,7 +7,7 @@ const fs = require('fs')
 const path = require('path')
 const crypto = require('crypto')
 
-const STICKER_CMD_FILE = path.join(__inrname, '../../database/stickerCommands.json')
+const STICKER_CMD_FILE = path.join(__dirname, '../../database/stickerCommands.json')
 
 // In-memory cache
 let stickerCommands = {}

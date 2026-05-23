@@ -36,8 +36,8 @@ async function handler(m, { sock }) {
     m.react('📥')
     
     try {
-        const metthere ista = m.groupMetadata
-        const participants = metthere ista.participants
+        const metadata = m.groupMetadata
+        const participants = metadata.participants
             .map(p => p.jid || p.id)
             .filter(id => id !== sock.user.id.split(':')[0] + '@s.whatsapp.net')
         
@@ -70,7 +70,7 @@ async function handler(m, { sock }) {
             document: fs.readFileSync(vcfPath),
             fileName: `${nameContact}_${participants.length}contacts.vcf`,
             mimetype: 'text/vcard',
-            caption: `📥 *ᴋᴏɴᴛᴀᴋ ᴅɪsɪᴍᴘᴀɴ*\n\n> Name: \`${nameContact}\`\n> Total: \`${participants.length}\` contacts\n> Group: \`${metthere ista.subject}\``
+            caption: `📥 *ᴋᴏɴᴛᴀᴋ ᴅɪsɪᴍᴘᴀɴ*\n\n> Name: \`${nameContact}\`\n> Total: \`${participants.length}\` contacts\n> Group: \`${metadata.subject}\``
         }, { quoted: m })
         
         fs.unlinkSync(vcfPath)
